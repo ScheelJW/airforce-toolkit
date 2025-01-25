@@ -1,13 +1,18 @@
-export const runtime = 'edge';
+export const runtime = "edge";
 
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const feedback = req.body;
-    console.log("Received feedback:", feedback);
+export default async function handler(req, event) {
+  if (req.method === "POST") {
+    const feedback = await req.json(); // Use edge-compatible req.json()
+    console.log("Feedback received:", feedback);
 
-    // Simulate saving feedback to a database or performing some action
-    res.status(200).json({ message: "Feedback received successfully!" });
-  } else {
-    res.status(405).json({ message: "Method Not Allowed" });
+    return new Response(
+      JSON.stringify({ message: "Feedback received successfully!" }),
+      { status: 200, headers: { "Content-Type": "application/json" } }
+    );
   }
+
+  return new Response(
+    JSON.stringify({ message: "Method Not Allowed" }),
+    { status: 405, headers: { "Content-Type": "application/json" } }
+  );
 }
