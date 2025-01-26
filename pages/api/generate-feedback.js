@@ -1,11 +1,3 @@
-import { OpenAIApi, Configuration } from "openai";
-
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY, // Ensure your OpenAI API key is set in the environment variables
-});
-
-const openai = new OpenAIApi(configuration);
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);
@@ -19,6 +11,15 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Use dynamic import to avoid bundling issues
+    const { Configuration, OpenAIApi } = await import("openai");
+
+    const configuration = new Configuration({
+      apiKey: process.env.OPENAI_API_KEY, // Ensure this is set in your environment variables
+    });
+
+    const openai = new OpenAIApi(configuration);
+
     const prompt = `
       You are an AI assistant for Air Force/Space Force applications. Analyze the feedback provided below and generate a customized response:
       
