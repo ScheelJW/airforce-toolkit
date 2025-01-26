@@ -5,6 +5,7 @@ import PublicIcon from "@mui/icons-material/Public";
 import EditIcon from "@mui/icons-material/Edit";
 import ForumIcon from "@mui/icons-material/Forum";
 import BookIcon from "@mui/icons-material/MenuBook";
+import CreateIcon from "@mui/icons-material/Create"; // Icon for DAF Writing Tools
 
 const Card = ({ children, className, onClick }) => (
   <div
@@ -54,34 +55,34 @@ const HomePage = () => {
     router.push(path);
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  const feedback = e.target.feedback.value;
-  setSubmitting(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const feedback = e.target.feedback.value;
+    setSubmitting(true);
 
-  try {
-    const response = await fetch('/api/generate-feedback', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ feedback }),
-    });
+    try {
+      const response = await fetch('/api/submit-feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ feedback }),
+      });
 
-    if (response.ok) {
-      const data = await response.json();
-      setModalMessage(data.generatedMessage); // Show OpenAI-generated response
-      e.target.reset();
-      fetchFeedbackCount(); // Update the feedback count
-    } else {
-      const errorData = await response.json();
-      setModalMessage(`Failed to process feedback: ${errorData.error}`);
+      if (response.ok) {
+        const data = await response.json();
+        setModalMessage(data.message); // Show success message
+        e.target.reset();
+        fetchFeedbackCount(); // Update the feedback count after submission
+      } else {
+        const errorData = await response.json();
+        setModalMessage(`Failed to process feedback: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+      setModalMessage('An error occurred while processing your feedback.');
+    } finally {
+      setSubmitting(false);
     }
-  } catch (error) {
-    console.error('Error submitting feedback:', error);
-    setModalMessage('An error occurred while submitting feedback.');
-  } finally {
-    setSubmitting(false);
-  }
-};
+  };
 
   const fetchFeedbackCount = async () => {
     try {
@@ -173,6 +174,19 @@ const handleSubmit = async (e) => {
               <h2 className="text-3xl font-bold mb-2">Guides & How-Tos</h2>
               <p className="text-lg text-gray-300">
                 Explore detailed guides and step-by-step how-tos to enhance your knowledge and skills.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card
+            className="cursor-pointer hover:shadow-2xl transform hover:scale-105"
+            onClick={() => handleNavigation("/daf-writing-tools")}
+          >
+            <CardContent>
+              <CreateIcon className="text-pink-500 text-5xl mb-4" />
+              <h2 className="text-3xl font-bold mb-2">DAF Writing Tools</h2>
+              <p className="text-lg text-gray-300">
+                Streamline and enhance your Air Force and Space Force writing tasks.
               </p>
             </CardContent>
           </Card>
