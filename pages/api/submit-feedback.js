@@ -2,8 +2,10 @@ import { Client } from "pg";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // Ensure this is set in your environment variables
+  apiKey: process.env.OPENAI_API_KEY, // Make sure this is set in your environment variables
 });
+
+const THROTTLE_LIMIT = 2; // Max feedbacks per hour
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -12,6 +14,7 @@ export default async function handler(req, res) {
   }
 
   const { feedback } = req.body;
+  const userIp = req.headers["x-forwarded-for"] || req.connection.remoteAddress; // Capture user's IP
 
   if (!feedback || feedback.trim() === "") {
     return res.status(400).json({ error: "Feedback cannot be empty" });
@@ -29,14 +32,35 @@ export default async function handler(req, res) {
   });
 
   try {
+    // Connect to the database
+    await client.connect();
+
+    // Check throttle: Count feedback submissions from this IP in the last hour
+    const throttleQuery = `
+      SELECT COUNT(*) as feedback_count 
+      FROM feedback 
+      WHERE ip_address = $1 AND date_time > NOW() - INTERVAL '1 hour';
+    `;
+    const throttleResult = await client.query(throttleQuery, [userIp]);
+
+    if (parseInt(throttleResult.rows[0].feedback_count, 10) >= THROTTLE_LIMIT) {
+      return res.status(429).json({
+        error: "You can only submit up to 2 feedbacks per hour. Please try again later."
+      });
+    }
+
+    // Validate the feedback for randomness (e.g., gibberish like 'SDgsdgfsdgf')
+    if (/[^a-zA-Z0-9\s.,!?']/.test(feedback)) {
+      return res.status(400).json({
+        error: "Your feedback appears to be irrelevant and was not submitted."
+      });
+    }
+
     // Generate a custom AI response using OpenAI
     const prompt = `
-      You are an AI assistant for Air Force/Space Force applications. Analyze the feedback provided below and generate a customized response:
+      You are an AI assistant for Air Force/Space Force applications. Analyze the feedback provided below and generate a concise and polite response to summarize it and thank the user. If the feedback is completely irrelevant or nonsensical, respond humorously to acknowledge it but do not save the feedback.
 
       Feedback: "${feedback}"
-
-      If the feedback is specific to an app (e.g., EPB, Safety App, News Updates), address the feedback appropriately and acknowledge the input.
-      If the feedback is unrelated to Air Force/Space Force topics, respond with a humorous and friendly comment.
     `;
 
     const completion = await openai.chat.completions.create({
@@ -47,23 +71,19 @@ export default async function handler(req, res) {
 
     const aiResponse = completion.choices[0].message.content.trim();
 
-    // Connect to the database
-    await client.connect();
-
-    // Insert the feedback, AI response, and current timestamp into the database
+    // Save the feedback, AI response, and timestamp to the database
     const query = `
-      INSERT INTO feedback (message, ai_response, date_time)
-      VALUES ($1, $2, $3)
-      RETURNING *;
+      INSERT INTO feedback (message, ai_response, date_time, ip_address)
+      VALUES ($1, $2, $3, $4)
+      RETURNING ai_response;
     `;
-    const values = [feedback, aiResponse, new Date().toISOString()];
+    const values = [feedback, aiResponse, new Date().toISOString(), userIp];
 
     const result = await client.query(query, values);
 
-    // Send the inserted row data, including the AI response, back to the frontend
+    // Send the AI response back to the frontend
     res.status(200).json({
-      message: "Feedback submitted successfully!",
-      ai_response: result.rows[0].ai_response,
+      message: result.rows[0].ai_response, // Display the AI-generated response only
     });
   } catch (error) {
     console.error("Error submitting feedback:", error);
