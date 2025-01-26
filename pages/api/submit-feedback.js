@@ -51,7 +51,10 @@ export default async function handler(req, res) {
 
     // Generate a custom AI response using OpenAI
     const prompt = `
-      You are an AI assistant for Air Force/Space Force applications. Evaluate the feedback provided below and determine its relevance to Air Force/Space Force topics. If it is relevant, provide a concise summary of the feedback and conclude with "Thank you for your feedback." If it is irrelevant, respond humorously, explain that the feedback is not being saved, and do not provide any follow-ups.
+      You are an AI assistant for suggestions and feedback for a website focused on Air Force/Space Force topics and apps. Analyze the feedback provided below.
+
+      - If the feedback is relevant (e.g., discussing apps, new features, site suggestions, Air Force/Space Force tools), provide a direct summary of what the feedback is about and conclude with: "Thank you for your feedback."
+      - If the feedback is irrelevant, gibberish, or nonsensical (e.g., "asdklasdl"), respond humorously and explain that it will not be saved.
 
       Feedback: "${feedback}"
     `;
@@ -68,7 +71,7 @@ export default async function handler(req, res) {
     }
 
     // Determine if the feedback is irrelevant based on the AI response
-    const isIrrelevant = aiResponse.toLowerCase().includes("not being saved");
+    const isIrrelevant = aiResponse.toLowerCase().includes("will not be saved");
     if (isIrrelevant) {
       return res.status(400).json({ error: aiResponse }); // Show the humorous response in the modal
     }
