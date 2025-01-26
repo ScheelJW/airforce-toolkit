@@ -4,9 +4,10 @@ import PublicIcon from "@mui/icons-material/Public";
 import EditIcon from "@mui/icons-material/Edit";
 import ForumIcon from "@mui/icons-material/Forum";
 
+// Placeholder components for preview mode
 const Card = ({ children, className, onClick }) => (
   <div
-    className={`rounded-2xl shadow-lg bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-700 hover:from-blue-900 hover:to-blue-700 ${className}`}
+    className={rounded-2xl shadow-lg bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-700 hover:from-blue-900 hover:to-blue-700 ${className}}
     onClick={onClick}
     style={{ padding: "1.5rem", cursor: onClick ? "pointer" : "default", transition: "all 0.3s ease-in-out" }}
   >
@@ -15,14 +16,14 @@ const Card = ({ children, className, onClick }) => (
 );
 
 const CardContent = ({ children, className }) => (
-  <div className={`p-6 text-center ${className}`} style={{ color: "#e0e7ff" }}>
+  <div className={p-6 text-center ${className}} style={{ color: "#e0e7ff" }}>
     {children}
   </div>
 );
 
 const HomePage = () => {
   const handleNavigation = (path) => {
-    alert(`Navigate to: ${path}`);
+    alert(Navigate to: ${path});
   };
 
   return (
@@ -94,6 +95,23 @@ const HomePage = () => {
         </Card>
       </main>
 
+      <div className="bg-gray-800 py-10 px-8 sm:px-16 rounded-t-2xl shadow-inner">
+        <h2 className="text-3xl font-semibold mb-6 text-center text-blue-400">Suggestions & Feedback</h2>
+        <form className="flex flex-col gap-6 items-center">
+          <textarea
+            className="w-full max-w-3xl p-4 rounded-lg bg-gray-700 text-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-500"
+            rows="5"
+            placeholder="Share your thoughts or feedback here..."
+          ></textarea>
+          <button
+            type="submit"
+            className="px-8 py-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transform hover:scale-105 transition"
+          >
+            Submit Feedback
+          </button>
+        </form>
+      </div>
+
       <footer className="text-center py-8 text-sm text-gray-500">
         <p>&copy; 2025 Air Force Toolkit. All rights reserved.</p>
       </footer>
@@ -102,3 +120,5 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+// Updated header to include a visually appealing gradient background with a modern look.
