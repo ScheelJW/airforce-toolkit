@@ -12,14 +12,18 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log("Importing OpenAI...");
-    const { Configuration, OpenAIApi } = await import("openai");
+    console.log("Importing OpenAI dynamically...");
+    const openaiModule = await import("openai");
+    console.log("Imported OpenAI Module:", openaiModule);
+
+    const { Configuration, OpenAIApi } = openaiModule;
 
     console.log("Initializing OpenAI Configuration...");
     const configuration = new Configuration({
       apiKey: process.env.OPENAI_API_KEY,
     });
 
+    console.log("Initializing OpenAI API...");
     const openai = new OpenAIApi(configuration);
 
     console.log("Creating OpenAI prompt...");
