@@ -23,7 +23,14 @@ const CardContent = ({ children, className }) => (
 );
 
 const HomePage = () => {
-  const router = useRouter();
+  let router;
+  try {
+    const { useRouter } = require("next/router");
+    router = useRouter();
+  } catch (e) {
+    console.error("Routing unavailable in this environment");
+    router = { push: (path) => console.log(`Navigate to: ${path}`) };
+  }
 
   const handleNavigation = (path) => {
     router.push(path);
@@ -105,6 +112,23 @@ const HomePage = () => {
           </Card>
         </div>
       </main>
+
+      <div className="bg-gray-800 py-10 px-8 sm:px-16 rounded-t-2xl shadow-inner">
+        <h2 className="text-3xl font-semibold mb-6 text-center text-blue-400">Suggestions & Feedback</h2>
+        <form className="flex flex-col gap-6 items-center">
+          <textarea
+            className="w-full max-w-3xl p-4 rounded-lg bg-gray-700 text-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-500"
+            rows="5"
+            placeholder="Share your thoughts or feedback here..."
+          ></textarea>
+          <button
+            type="submit"
+            className="px-8 py-3 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transform hover:scale-105 transition"
+          >
+            Submit Feedback
+          </button>
+        </form>
+      </div>
 
       <footer className="text-center py-8 text-sm text-gray-500">
         <p>&copy; 2025 Air Force Toolkit. All rights reserved.</p>
