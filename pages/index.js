@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import SecurityIcon from "@mui/icons-material/Security";
 import PublicIcon from "@mui/icons-material/Public";
@@ -22,7 +22,25 @@ const CardContent = ({ children, className }) => (
   </div>
 );
 
+const Modal = ({ message, onClose }) => (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-gray-800 text-white rounded-lg shadow-xl p-6 max-w-md">
+      <p className="text-lg mb-4">{message}</p>
+      <button
+        onClick={onClose}
+        className="px-6 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+);
+
 const HomePage = () => {
+  const [feedbackCount, setFeedbackCount] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
+  const [modalMessage, setModalMessage] = useState(null);
+
   let router;
   try {
     const { useRouter } = require("next/router");
@@ -39,6 +57,7 @@ const HomePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const feedback = e.target.feedback.value;
+    setSubmitting(true);
 
     try {
       const response = await fetch('/api/submit-feedback', {
@@ -48,17 +67,39 @@ const HomePage = () => {
       });
 
       if (response.ok) {
-        alert('Feedback submitted successfully!');
+        setModalMessage('Feedback submitted successfully!');
         e.target.reset();
+        fetchFeedbackCount(); // Update the feedback count after submission
       } else {
         const errorData = await response.json();
-        alert(`Failed to submit feedback: ${errorData.error}`);
+        setModalMessage(`Failed to submit feedback: ${errorData.error}`);
       }
     } catch (error) {
       console.error('Error submitting feedback:', error);
-      alert('An error occurred while submitting feedback.');
+      setModalMessage('An error occurred while submitting feedback.');
+    } finally {
+      setSubmitting(false);
     }
   };
+
+  const fetchFeedbackCount = async () => {
+    try {
+      const response = await fetch('/api/feedback-count');
+      if (response.ok) {
+        const data = await response.json();
+        setFeedbackCount(data.count);
+      }
+    } catch (error) {
+      console.error('Error fetching feedback count:', error);
+    }
+  };
+
+  useEffect(() => {
+    // Fetch the initial feedback count and set up polling
+    fetchFeedbackCount();
+    const interval = setInterval(fetchFeedbackCount, 5000); // Poll every 5 seconds
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-gray-900 text-white flex flex-col justify-between">
@@ -137,8 +178,9 @@ const HomePage = () => {
         </div>
       </main>
 
-      <div className="bg-gray-800 py-10 px-8 sm:px-16 rounded-t-2xl shadow-inner">
+      <div className="bg-gray-800 py-10 px-8 sm:px-16 rounded-t-2xl shadow-inner relative">
         <h2 className="text-3xl font-semibold mb-6 text-center text-blue-400">Suggestions & Feedback</h2>
+        <p className="absolute bottom-4 right-4 text-sm text-gray-400">{feedbackCount} feedbacks provided.</p>
         <form className="flex flex-col gap-6 items-center" onSubmit={handleSubmit}>
           <textarea
             name="feedback"
@@ -148,9 +190,9 @@ const HomePage = () => {
           ></textarea>
           <button
             type="submit"
-            className="px-8 py-3 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transform hover:scale-105 transition"
+            className={`px-8 py-3 ${submitting ? "bg-gray-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} text-white font-bold rounded-full shadow-lg transform transition`} disabled={submitting}
           >
-            Submit Feedback
+            {submitting ? "Submitting..." : "Submit Feedback"}
           </button>
         </form>
       </div>
@@ -160,6 +202,8 @@ const HomePage = () => {
         <p className="text-xs mt-4">This is not an official website of the Department of Defense (DoD). The content presented here does not reflect the views or policies of the DoD or any of its components.</p>
         <p className="text-xs mt-4">Affiliate: <a href="https://automateeverything.us" className="text-blue-400 hover:underline" target="_blank">Automate Everything</a></p>
       </footer>
+
+      {modalMessage && <Modal message={modalMessage} onClose={() => setModalMessage(null)} />}
     </div>
   );
 };
