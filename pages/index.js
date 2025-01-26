@@ -180,14 +180,16 @@ const HomePage = () => {
 
       <div className="bg-gray-800 py-10 px-8 sm:px-16 rounded-t-2xl shadow-inner relative">
         <h2 className="text-3xl font-semibold mb-6 text-center text-blue-400">Suggestions & Feedback</h2>
-        <p className="absolute bottom-4 right-4 text-sm text-gray-400">{feedbackCount} feedbacks provided.</p>
         <form className="flex flex-col gap-6 items-center" onSubmit={handleSubmit}>
-          <textarea
-            name="feedback"
-            className="w-full max-w-3xl p-4 rounded-lg bg-gray-700 text-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-500"
-            rows="5"
-            placeholder="Share your thoughts or feedback here..."
-          ></textarea>
+          <div className="w-full max-w-3xl relative">
+            <textarea
+              name="feedback"
+              className="w-full p-4 rounded-lg bg-gray-700 text-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-500"
+              rows="5"
+              placeholder="Share your thoughts or feedback here..."
+            ></textarea>
+            <p className="absolute bottom-2 right-4 text-sm text-gray-400">{feedbackCount} feedbacks provided.</p>
+          </div>
           <button
             type="submit"
             className={`px-8 py-3 ${submitting ? "bg-gray-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} text-white font-bold rounded-full shadow-lg transform transition`} disabled={submitting}
