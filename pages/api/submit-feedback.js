@@ -18,23 +18,20 @@ export default async function handler(req, res) {
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
-    connectionTimeoutMillis: 5000, // Timeout in milliseconds
+    ssl: {
+      rejectUnauthorized: false, // Disable SSL verification for testing
+    },
   });
 
   try {
-    console.log('Connecting to the database...');
     await client.connect();
-    console.log('Connected successfully!');
-
     const query = 'INSERT INTO feedback (message) VALUES ($1)';
     await client.query(query, [feedback]);
-    console.log('Feedback inserted successfully!');
+    await client.end();
 
     res.status(200).json({ message: 'Feedback submitted successfully!' });
   } catch (error) {
     console.error('Database error:', error);
     res.status(500).json({ error: 'Failed to submit feedback.' });
-  } finally {
-    await client.end();
   }
 }
