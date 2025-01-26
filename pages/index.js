@@ -36,6 +36,30 @@ const HomePage = () => {
     router.push(path);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const feedback = e.target.feedback.value;
+
+    try {
+      const response = await fetch('/api/submit-feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ feedback }),
+      });
+
+      if (response.ok) {
+        alert('Feedback submitted successfully!');
+        e.target.reset();
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to submit feedback: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+      alert('An error occurred while submitting feedback.');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-gray-900 text-white flex flex-col justify-between">
       <header className="relative text-center py-16 flex flex-col items-center">
@@ -115,8 +139,9 @@ const HomePage = () => {
 
       <div className="bg-gray-800 py-10 px-8 sm:px-16 rounded-t-2xl shadow-inner">
         <h2 className="text-3xl font-semibold mb-6 text-center text-blue-400">Suggestions & Feedback</h2>
-        <form className="flex flex-col gap-6 items-center">
+        <form className="flex flex-col gap-6 items-center" onSubmit={handleSubmit}>
           <textarea
+            name="feedback"
             className="w-full max-w-3xl p-4 rounded-lg bg-gray-700 text-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-500"
             rows="5"
             placeholder="Share your thoughts or feedback here..."
