@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import SecurityIcon from "@mui/icons-material/Security";
 import PublicIcon from "@mui/icons-material/Public";
 import EditIcon from "@mui/icons-material/Edit";
 import ForumIcon from "@mui/icons-material/Forum";
 import BookIcon from "@mui/icons-material/MenuBook";
+import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import FlightIcon from "@mui/icons-material/Flight";
 
 const Card = ({ children, className, onClick }) => (
   <div
@@ -21,6 +23,51 @@ const CardContent = ({ children, className }) => (
     {children}
   </div>
 );
+
+const MovingObject = ({ Icon, color, mode }) => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [angle, setAngle] = useState(0);
+
+  useEffect(() => {
+    const moveObject = () => {
+      if (mode === "vertical") {
+        const newY = Math.random() * window.innerHeight;
+        const deltaY = newY - position.y;
+        const newAngle = deltaY > 0 ? 90 : -90; // Adjust angle for up/down movement
+
+        setPosition({ x: position.x, y: newY });
+        setAngle(newAngle);
+      } else {
+        const newX = Math.random() * window.innerWidth;
+        const newY = Math.random() * window.innerHeight;
+        const deltaX = newX - position.x;
+        const deltaY = newY - position.y;
+        const newAngle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+
+        setPosition({ x: newX, y: newY });
+        setAngle(newAngle);
+      }
+    };
+
+    const interval = setInterval(moveObject, 2000);
+    return () => clearInterval(interval);
+  }, [position, mode]);
+
+  return (
+    <Icon
+      style={{
+        position: "fixed",
+        top: position.y,
+        left: position.x,
+        transform: `rotate(${angle}deg)`,
+        fontSize: "3rem",
+        color: color,
+        pointerEvents: "none",
+        transition: "all 2s ease-in-out",
+      }}
+    />
+  );
+};
 
 const HomePage = () => {
   let router;
@@ -62,6 +109,8 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-gray-900 text-white flex flex-col justify-between">
+      <MovingObject Icon={RocketLaunchIcon} color="#ffffff" mode="free" />
+      <MovingObject Icon={FlightIcon} color="#ffffff" mode="vertical" />
       <header className="relative text-center py-16 flex flex-col items-center">
         <div className="absolute inset-0 bg-gradient-to-tr from-blue-700 via-blue-800 to-indigo-900 opacity-50 blur-xl rounded-full w-72 h-72 -translate-y-20" />
         <h1 className="text-6xl font-extrabold mb-4 tracking-tight text-white z-10 drop-shadow-lg">Air Force Toolkit</h1>
