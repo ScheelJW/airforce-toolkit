@@ -2,7 +2,7 @@ import { Client } from "pg";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // Make sure this is set in your environment variables
+  apiKey: process.env.OPENAI_API_KEY, // Ensure this is set in your environment variables
 });
 
 export default async function handler(req, res) {
@@ -24,12 +24,12 @@ export default async function handler(req, res) {
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
     ssl: {
-      rejectUnauthorized: false, // Use SSL if connecting to managed databases
+      rejectUnauthorized: false, // Use SSL for secure connections to managed databases
     },
   });
 
   try {
-    // Generate a custom AI response
+    // Generate a custom AI response using OpenAI
     const prompt = `
       You are an AI assistant for Air Force/Space Force applications. Analyze the feedback provided below and generate a customized response:
 
@@ -40,7 +40,7 @@ export default async function handler(req, res) {
     `;
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo", // Or "gpt-4" if you have access
+      model: "gpt-3.5-turbo", // Use gpt-4 if available
       messages: [{ role: "user", content: prompt }],
       max_tokens: 150,
     });
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
     // Connect to the database
     await client.connect();
 
-    // Save the feedback, AI response, and timestamp to the database
+    // Insert the feedback, AI response, and current timestamp into the database
     const query = `
       INSERT INTO feedback (message, ai_response, date_time)
       VALUES ($1, $2, $3)
@@ -60,10 +60,10 @@ export default async function handler(req, res) {
 
     const result = await client.query(query, values);
 
-    // Send the response back to the client
+    // Send the inserted row data, including the AI response, back to the frontend
     res.status(200).json({
       message: "Feedback submitted successfully!",
-      data: result.rows[0],
+      ai_response: result.rows[0].ai_response,
     });
   } catch (error) {
     console.error("Error submitting feedback:", error);
