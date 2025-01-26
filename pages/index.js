@@ -55,7 +55,7 @@ const HomePage = () => {
     router.push(path);
   };
 
-  const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
   e.preventDefault();
   const feedback = e.target.feedback.value;
   setSubmitting(true);
@@ -81,6 +81,7 @@ const HomePage = () => {
     setSubmitting(false);
   }
 };
+
 
 
 
