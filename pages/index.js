@@ -4,39 +4,38 @@ import PublicIcon from "@mui/icons-material/Public";
 import EditIcon from "@mui/icons-material/Edit";
 import ForumIcon from "@mui/icons-material/Forum";
 
-// Placeholder components for preview mode
 const Card = ({ children, className, onClick }) => (
   <div
-    className={rounded-2xl shadow-lg bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-700 hover:from-blue-900 hover:to-blue-700 ${className}}
+    className={`rounded-2xl shadow-lg bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-700 hover:from-blue-900 hover:to-blue-700 ${className}`}
     onClick={onClick}
-    style={{ padding: "1.5rem", cursor: onClick ? "pointer" : "default", transition: "all 0.3s ease-in-out" }}
+    style={{ padding: "1.5rem", cursor: onClick ? "pointer" : "default", transition: "all 0.3s ease-in-out", border: "1px solid #ffffff" }}
   >
     {children}
   </div>
 );
 
 const CardContent = ({ children, className }) => (
-  <div className={p-6 text-center ${className}} style={{ color: "#e0e7ff" }}>
+  <div className={`p-6 text-center ${className}`} style={{ color: "#e0e7ff" }}>
     {children}
   </div>
 );
 
 const HomePage = () => {
   const handleNavigation = (path) => {
-    alert(Navigate to: ${path});
+    alert(`Navigate to: ${path}`);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 to-black text-white flex flex-col justify-between">
+    <div className="min-h-screen bg-gradient-to-b from-blue-900 to-gray-900 text-white flex flex-col justify-between">
       <header className="relative text-center py-16 flex flex-col items-center">
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-800 via-purple-800 to-indigo-900 opacity-50 blur-xl rounded-full w-72 h-72 -translate-y-20" />
-        <h1 className="text-6xl font-bold mb-4 tracking-tight text-white z-10 drop-shadow-lg">Air Force Toolkit</h1>
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-700 via-blue-800 to-indigo-900 opacity-50 blur-xl rounded-full w-72 h-72 -translate-y-20" />
+        <h1 className="text-6xl font-extrabold mb-4 tracking-tight text-white z-10 drop-shadow-lg">Air Force Toolkit</h1>
         <p className="text-lg text-gray-300 z-10">Empowering Airmen and Guardians with cutting-edge tools</p>
       </header>
 
       <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-8 sm:px-16 mb-16">
         <Card
-          className="cursor-pointer hover:shadow-2xl transform hover:scale-110"
+          className="cursor-pointer hover:shadow-2xl transform hover:scale-105"
           onClick={() => handleNavigation("/safety-standards-briefings")}
         >
           <CardContent>
@@ -49,7 +48,7 @@ const HomePage = () => {
         </Card>
 
         <Card
-          className="cursor-pointer hover:shadow-2xl transform hover:scale-110"
+          className="cursor-pointer hover:shadow-2xl transform hover:scale-105"
           onClick={() => handleNavigation("/news-updates")}
         >
           <CardContent>
@@ -62,7 +61,7 @@ const HomePage = () => {
         </Card>
 
         <Card
-          className="cursor-pointer hover:shadow-2xl transform hover:scale-110"
+          className="cursor-pointer hover:shadow-2xl transform hover:scale-105"
           onClick={() => handleNavigation("/epb-opb-drafter")}
         >
           <CardContent>
@@ -75,7 +74,7 @@ const HomePage = () => {
         </Card>
 
         <Card
-          className="cursor-pointer hover:shadow-2xl transform hover:scale-110"
+          className="cursor-pointer hover:shadow-2xl transform hover:scale-105"
           onClick={() => handleNavigation("/social")}
         >
           <CardContent>
@@ -105,7 +104,7 @@ const HomePage = () => {
           ></textarea>
           <button
             type="submit"
-            className="px-8 py-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transform hover:scale-105 transition"
+            className="px-8 py-3 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transform hover:scale-105 transition"
           >
             Submit Feedback
           </button>
@@ -120,5 +119,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-// Updated header to include a visually appealing gradient background with a modern look.
