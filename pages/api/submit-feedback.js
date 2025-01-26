@@ -1,7 +1,6 @@
 import { Client } from 'pg';
 
 export default async function handler(req, res) {
-  // Allow only POST requests
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
     return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
@@ -9,7 +8,6 @@ export default async function handler(req, res) {
 
   const { feedback } = req.body;
 
-  // Validate input
   if (!feedback || feedback.trim() === '') {
     return res.status(400).json({ error: 'Feedback cannot be empty' });
   }
@@ -23,14 +21,19 @@ export default async function handler(req, res) {
   });
 
   try {
+    console.log('Connecting to the database...');
     await client.connect();
+    console.log('Connected successfully!');
+
     const query = 'INSERT INTO feedback (message) VALUES ($1)';
     await client.query(query, [feedback]);
-    await client.end();
+    console.log('Feedback inserted successfully!');
 
     res.status(200).json({ message: 'Feedback submitted successfully!' });
   } catch (error) {
     console.error('Database error:', error);
     res.status(500).json({ error: 'Failed to submit feedback.' });
+  } finally {
+    await client.end();
   }
 }
