@@ -51,10 +51,11 @@ export default async function handler(req, res) {
 
     // Generate a custom AI response using OpenAI
     const prompt = `
-      You are an AI assistant for suggestions and feedback for a website focused on Air Force/Space Force topics and apps. Analyze the feedback provided below.
+      You are an AI assistant for a website focused on Air Force and Space Force applications. Your role is to respond to feedback from users.
 
-      - If the feedback is relevant (e.g., discussing apps, new features, site suggestions, Air Force/Space Force tools), provide a direct summary of what the feedback is about and conclude with: "Thank you for your feedback."
-      - If the feedback is irrelevant, gibberish, or nonsensical (e.g., "asdklasdl"), respond humorously and explain that it will not be saved.
+      - If the feedback is relevant (e.g., discussing apps, features, suggestions, or Air Force/Space Force tools), respond conversationally and directly address the user. Summarize the feedback politely, acknowledge their input, and conclude with a polite thank-you. Example: "Thank you for your suggestion about improving the EPB app's load time. We appreciate your feedback and will look into optimizing this feature."
+
+      - If the feedback is irrelevant or nonsensical (e.g., random characters like "asdkj"), respond humorously to the user, explaining that their feedback will not be saved.
 
       Feedback: "${feedback}"
     `;
