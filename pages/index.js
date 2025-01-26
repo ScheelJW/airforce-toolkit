@@ -60,23 +60,24 @@ const HomePage = () => {
     setSubmitting(true);
 
     try {
-      const response = await fetch('/api/submit-feedback', {
+      const response = await fetch('/api/generate-feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ feedback }),
       });
 
       if (response.ok) {
-        setModalMessage('Feedback submitted successfully!');
+        const data = await response.json();
+        setModalMessage(data.generatedMessage); // Display OpenAI-generated response
         e.target.reset();
         fetchFeedbackCount(); // Update the feedback count after submission
       } else {
         const errorData = await response.json();
-        setModalMessage(`Failed to submit feedback: ${errorData.error}`);
+        setModalMessage(`Failed to process feedback: ${errorData.error}`);
       }
     } catch (error) {
       console.error('Error submitting feedback:', error);
-      setModalMessage('An error occurred while submitting feedback.');
+      setModalMessage('An error occurred while processing your feedback.');
     } finally {
       setSubmitting(false);
     }
