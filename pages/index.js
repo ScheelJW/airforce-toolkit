@@ -54,34 +54,34 @@ const HomePage = () => {
     router.push(path);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const feedback = e.target.feedback.value;
-    setSubmitting(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const feedback = e.target.feedback.value;
+  setSubmitting(true);
 
-    try {
-      const response = await fetch('/api/generate-feedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ feedback }),
-      });
+  try {
+    const response = await fetch('/api/generate-feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ feedback }),
+    });
 
-      if (response.ok) {
-        const data = await response.json();
-        setModalMessage(data.generatedMessage); // Display OpenAI-generated response
-        e.target.reset();
-        fetchFeedbackCount(); // Update the feedback count after submission
-      } else {
-        const errorData = await response.json();
-        setModalMessage(`Failed to process feedback: ${errorData.error}`);
-      }
-    } catch (error) {
-      console.error('Error submitting feedback:', error);
-      setModalMessage('An error occurred while processing your feedback.');
-    } finally {
-      setSubmitting(false);
+    if (response.ok) {
+      const data = await response.json();
+      setModalMessage(data.generatedMessage); // Show OpenAI-generated response
+      e.target.reset();
+      fetchFeedbackCount(); // Update the feedback count
+    } else {
+      const errorData = await response.json();
+      setModalMessage(`Failed to process feedback: ${errorData.error}`);
     }
-  };
+  } catch (error) {
+    console.error('Error submitting feedback:', error);
+    setModalMessage('An error occurred while submitting feedback.');
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   const fetchFeedbackCount = async () => {
     try {
