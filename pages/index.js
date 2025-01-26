@@ -23,7 +23,7 @@ const CardContent = ({ children, className }) => (
 
 const HomePage = () => {
   const handleNavigation = (path) => {
-    alert(`Navigate to: ${path}`);
+    window.location.href = path;
   };
 
   return (
