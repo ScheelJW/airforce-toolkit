@@ -33,65 +33,70 @@ const HomePage = () => {
         <p className="text-lg text-gray-300 z-10">Empowering Airmen and Guardians with cutting-edge tools</p>
       </header>
 
-      <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-8 sm:px-16 mb-16">
-        <Card
-          className="cursor-pointer hover:shadow-2xl transform hover:scale-105"
-          onClick={() => handleNavigation("/safety-standards-briefings")}
-        >
-          <CardContent>
-            <SecurityIcon className="text-blue-500 text-5xl mb-4" />
-            <h2 className="text-3xl font-bold mb-2">Safety & Standards Briefings</h2>
-            <p className="text-lg text-gray-300">
-              Create tailored safety and standards briefings with ease.
-            </p>
-          </CardContent>
-        </Card>
+      <main className="px-8 sm:px-16 mb-16">
+        <section className="mb-16">
+          <h2 className="text-4xl font-bold text-center mb-10">Your Tools</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 justify-center">
+            <Card
+              className="cursor-pointer hover:shadow-2xl transform hover:scale-105"
+              onClick={() => handleNavigation("/safety-standards-briefings")}
+            >
+              <CardContent>
+                <SecurityIcon className="text-blue-500 text-5xl mb-4" />
+                <h2 className="text-3xl font-bold mb-2">Safety & Standards Briefings</h2>
+                <p className="text-lg text-gray-300">
+                  Create tailored safety and standards briefings with ease.
+                </p>
+              </CardContent>
+            </Card>
 
-        <Card
-          className="cursor-pointer hover:shadow-2xl transform hover:scale-105"
-          onClick={() => handleNavigation("/news-updates")}
-        >
-          <CardContent>
-            <PublicIcon className="text-green-500 text-5xl mb-4" />
-            <h2 className="text-3xl font-bold mb-2">News & Updates</h2>
-            <p className="text-lg text-gray-300">
-              Stay updated with the latest developments in the Air Force and Space Force.
-            </p>
-          </CardContent>
-        </Card>
+            <Card
+              className="cursor-pointer hover:shadow-2xl transform hover:scale-105"
+              onClick={() => handleNavigation("/epb-opb-drafter")}
+            >
+              <CardContent>
+                <EditIcon className="text-yellow-500 text-5xl mb-4" />
+                <h2 className="text-3xl font-bold mb-2">EPB/OPB Drafter</h2>
+                <p className="text-lg text-gray-300">
+                  Draft content and receive tailored suggestions to enhance your performance reports.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
 
-        <Card
-          className="cursor-pointer hover:shadow-2xl transform hover:scale-105"
-          onClick={() => handleNavigation("/epb-opb-drafter")}
-        >
-          <CardContent>
-            <EditIcon className="text-yellow-500 text-5xl mb-4" />
-            <h2 className="text-3xl font-bold mb-2">EPB/OPB Drafter</h2>
-            <p className="text-lg text-gray-300">
-              Draft content and receive tailored suggestions to enhance your performance reports.
-            </p>
-          </CardContent>
-        </Card>
+        <div className="border-t border-gray-700 my-10"></div>
 
-        <Card
-          className="cursor-pointer hover:shadow-2xl transform hover:scale-105"
-          onClick={() => handleNavigation("/social")}
-        >
-          <CardContent>
-            <ForumIcon className="text-purple-500 text-5xl mb-4" />
-            <h2 className="text-3xl font-bold mb-2">Social Hub</h2>
-            <p className="text-lg text-gray-300">
-              Share your thoughts, ideas, and updates in a community-driven space for Airmen and Guardians.
-            </p>
-          </CardContent>
-        </Card>
+        <section>
+          <h2 className="text-4xl font-bold text-center mb-10">Things to Explore</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 justify-center">
+            <Card
+              className="cursor-pointer hover:shadow-2xl transform hover:scale-105"
+              onClick={() => handleNavigation("/news-updates")}
+            >
+              <CardContent>
+                <PublicIcon className="text-green-500 text-5xl mb-4" />
+                <h2 className="text-3xl font-bold mb-2">News & Updates</h2>
+                <p className="text-lg text-gray-300">
+                  Stay updated with the latest developments in the Air Force and Space Force.
+                </p>
+              </CardContent>
+            </Card>
 
-        <Card className="opacity-75">
-          <CardContent>
-            <h2 className="text-3xl font-bold mb-2">Coming Soon</h2>
-            <p className="text-lg text-gray-300">More tools to support your mission.</p>
-          </CardContent>
-        </Card>
+            <Card
+              className="cursor-pointer hover:shadow-2xl transform hover:scale-105"
+              onClick={() => handleNavigation("/social")}
+            >
+              <CardContent>
+                <ForumIcon className="text-purple-500 text-5xl mb-4" />
+                <h2 className="text-3xl font-bold mb-2">Social Hub</h2>
+                <p className="text-lg text-gray-300">
+                  Share your thoughts, ideas, and updates in a community-driven space for Airmen and Guardians.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
       </main>
 
       <div className="bg-gray-800 py-10 px-8 sm:px-16 rounded-t-2xl shadow-inner">
@@ -113,6 +118,7 @@ const HomePage = () => {
 
       <footer className="text-center py-8 text-sm text-gray-500">
         <p>&copy; 2025 Air Force Toolkit. All rights reserved.</p>
+        <p className="text-xs mt-4">This is not an official website of the Department of Defense (DoD). The content presented here does not reflect the views or policies of the DoD or any of its components.</p>
       </footer>
     </div>
   );
