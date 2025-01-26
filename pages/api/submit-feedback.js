@@ -18,6 +18,7 @@ export default async function handler(req, res) {
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
+    connectionTimeoutMillis: 5000, // Timeout in milliseconds
   });
 
   try {
