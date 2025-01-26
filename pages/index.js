@@ -69,13 +69,10 @@ const HomePage = () => {
 
     if (response.ok) {
       const data = await response.json();
-      // Show the AI-generated response in the modal
-      setModalMessage(`AI Response: ${data.ai_response}`);
-      e.target.reset();
-      fetchFeedbackCount(); // Update the feedback count after submission
+      setModalMessage(data.message); // Show the AI response in the modal
     } else {
       const errorData = await response.json();
-      setModalMessage(`Failed to process feedback: ${errorData.error}`);
+      setModalMessage(errorData.error); // Show the humorous rejection message in the modal
     }
   } catch (error) {
     console.error('Error submitting feedback:', error);
@@ -84,6 +81,7 @@ const HomePage = () => {
     setSubmitting(false);
   }
 };
+
 
 
   const fetchFeedbackCount = async () => {
