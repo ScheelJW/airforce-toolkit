@@ -7,19 +7,22 @@ export default async function handler(req, res) {
   const { feedback } = req.body;
 
   if (!feedback || feedback.trim() === "") {
+    console.log("Feedback is empty or invalid.");
     return res.status(400).json({ error: "Feedback cannot be empty" });
   }
 
   try {
-    // Dynamically import OpenAI
+    console.log("Importing OpenAI...");
     const { Configuration, OpenAIApi } = await import("openai");
 
+    console.log("Initializing OpenAI Configuration...");
     const configuration = new Configuration({
-      apiKey: process.env.OPENAI_API_KEY, // Ensure your API key is set in the environment variables
+      apiKey: process.env.OPENAI_API_KEY,
     });
 
     const openai = new OpenAIApi(configuration);
 
+    console.log("Creating OpenAI prompt...");
     const prompt = `
       You are an AI assistant for Air Force/Space Force applications. Analyze the feedback provided below and generate a customized response:
 
@@ -29,6 +32,7 @@ export default async function handler(req, res) {
       If the feedback is unrelated to Air Force/Space Force topics, respond with a humorous and friendly comment.
     `;
 
+    console.log("Sending request to OpenAI...");
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
       prompt,
@@ -36,6 +40,7 @@ export default async function handler(req, res) {
     });
 
     const generatedMessage = completion.data.choices[0].text.trim();
+    console.log("Generated Message:", generatedMessage);
 
     res.status(200).json({ generatedMessage });
   } catch (error) {
