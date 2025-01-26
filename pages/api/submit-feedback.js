@@ -49,17 +49,9 @@ export default async function handler(req, res) {
       });
     }
 
-    // Validate the feedback for randomness (e.g., gibberish like 'SDgsdgfsdgf')
-    const isGibberish = /[^a-zA-Z0-9\s.,!?']/.test(feedback);
-    if (isGibberish) {
-      // Generate a humorous response for irrelevant feedback
-      const funnyResponse = "Hmm... that feedback seems a little out there! Try again with something more relevant.";
-      return res.status(400).json({ error: funnyResponse });
-    }
-
     // Generate a custom AI response using OpenAI
     const prompt = `
-      You are an AI assistant for Air Force/Space Force applications. Analyze the feedback provided below and generate a concise, polite response that addresses the feedback directly, acknowledges the input, and always ends with 'Thank you for your feedback.'
+      You are an AI assistant for Air Force/Space Force applications. Evaluate the feedback provided below. Determine if it is relevant to Air Force or Space Force applications. If relevant, summarize the feedback in a polite and concise response that addresses the user's input and always ends with "Thank you for your feedback." If the feedback is irrelevant or nonsensical, respond with a humorous message explaining that it is not being saved.
 
       Feedback: "${feedback}"
     `;
@@ -73,6 +65,12 @@ export default async function handler(req, res) {
     const aiResponse = completion.choices[0]?.message?.content?.trim();
     if (!aiResponse) {
       return res.status(500).json({ error: "Failed to generate an AI response." });
+    }
+
+    // Determine if the feedback is irrelevant based on the AI response
+    const isIrrelevant = aiResponse.toLowerCase().includes("not being saved");
+    if (isIrrelevant) {
+      return res.status(400).json({ error: aiResponse }); // Show the humorous response in the modal
     }
 
     // Save the feedback, AI response, and timestamp to the database
