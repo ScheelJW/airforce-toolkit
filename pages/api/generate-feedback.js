@@ -26,13 +26,13 @@ export default async function handler(req, res) {
       If the feedback is unrelated to Air Force/Space Force topics, respond with a humorous and friendly comment.
     `;
 
-    const completion = await openai.completions.create({
-      model: "text-davinci-003",
-      prompt,
+    const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo", // Switch to gpt-4 if available
+      messages: [{ role: "user", content: prompt }],
       max_tokens: 150,
     });
 
-    const generatedMessage = completion.choices[0].text.trim();
+    const generatedMessage = completion.choices[0].message.content.trim();
 
     res.status(200).json({ generatedMessage });
   } catch (error) {
