@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Modal from "./Modal"; // Assuming you already have a reusable Modal component
+import Modal from "./Modal"; // Assuming you already have a Modal component
 
 export default function Footer({ feedbackCount, handleSubmit }) {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -8,16 +8,13 @@ export default function Footer({ feedbackCount, handleSubmit }) {
     <>
       {/* Compact footer */}
       <div className="bg-gray-800 py-4 px-4 sm:px-8 rounded-t-2xl shadow-inner">
-        <div className="flex flex-col items-center space-y-4">
+        <div className="flex justify-center">
           <button
             onClick={() => setShowFeedbackModal(true)}
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
           >
             Provide Feedback
           </button>
-          <p className="text-xs text-gray-400">
-            {feedbackCount} feedbacks provided.
-          </p>
         </div>
       </div>
 
@@ -59,6 +56,9 @@ export default function Footer({ feedbackCount, handleSubmit }) {
                 Submit Feedback
               </button>
             </form>
+            <p className="text-sm text-gray-400 mt-4">
+              {feedbackCount} feedbacks provided.
+            </p>
           </div>
         </Modal>
       )}
