@@ -5,7 +5,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // Ensure this is set in your environment variables
 });
 
-const THROTTLE_LIMIT = 2; // Max feedbacks per hour
+const THROTTLE_LIMIT = 1000; // Max feedbacks per hour
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
