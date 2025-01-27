@@ -166,11 +166,11 @@ export default function HomePage() {
 
 
       {/* Footer */}
-      <Footer
-        feedbackCount={feedbackCount}
-        submitting={submitting}
-        handleSubmit={handleSubmit}
-      />
+<Footer
+  feedbackCount={feedbackCount}
+  handleSubmit={handleSubmit}
+/>
+
 
       {/* Server Response Modal */}
       <Modal message={modalMessage} onClose={() => setModalMessage(null)} />
