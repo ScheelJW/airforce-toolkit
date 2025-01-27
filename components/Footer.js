@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Modal from "./Modal"; // Ensure Modal is imported correctly
+import ChatIcon from "@mui/icons-material/Chat"; // Icon for feedback
 
 export default function Footer({ feedbackCount = 0 }) {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false); // Feedback form modal state
-  const [modalMessage, setModalMessage] = useState(null); // AI response modal state
+  const [modalMessage, setModalMessage] = useState(null); // Submission response message
   const [submitting, setSubmitting] = useState(false); // Submission loading state
 
   // Handle feedback submission
@@ -21,7 +22,7 @@ export default function Footer({ feedbackCount = 0 }) {
 
       if (response.ok) {
         const data = await response.json();
-        setModalMessage(data.message || "Thank you for your feedback!"); // Display AI response
+        setModalMessage(data.message || "Thank you for your feedback!"); // Display submission response
         setShowFeedbackModal(false); // Close the feedback form modal
       } else {
         const errorData = await response.json();
@@ -42,8 +43,9 @@ export default function Footer({ feedbackCount = 0 }) {
         <div className="flex justify-center">
           <button
             onClick={() => setShowFeedbackModal(true)} // Open feedback form modal
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex items-center gap-2"
           >
+            <ChatIcon className="text-white" />
             Provide Feedback
           </button>
         </div>
@@ -71,13 +73,14 @@ export default function Footer({ feedbackCount = 0 }) {
       {/* Feedback Modal */}
       {showFeedbackModal && (
         <Modal onClose={() => setShowFeedbackModal(false)}>
-          <div className="p-6">
-            <h2 className="text-xl font-bold mb-4">Submit Your Feedback</h2>
+          <div className="p-6 flex flex-col items-center">
+            <ChatIcon className="text-blue-500 text-6xl mb-4" />
+            <h2 className="text-2xl font-bold mb-4">Submit Your Feedback</h2>
             <form
               onSubmit={(e) => {
                 handleSubmit(e);
               }}
-              className="flex flex-col gap-4"
+              className="flex flex-col gap-4 w-full"
             >
               <textarea
                 name="feedback"
@@ -89,7 +92,7 @@ export default function Footer({ feedbackCount = 0 }) {
               <button
                 type="submit"
                 disabled={submitting}
-                className={`py-2 px-4 rounded-full font-bold text-white ${
+                className={`py-3 px-4 rounded-full font-bold text-white ${
                   submitting
                     ? "bg-gray-500 cursor-not-allowed"
                     : "bg-blue-600 hover:bg-blue-700"
@@ -105,12 +108,13 @@ export default function Footer({ feedbackCount = 0 }) {
         </Modal>
       )}
 
-      {/* AI Response Modal */}
+      {/* Submission Response Modal */}
       {modalMessage && (
         <Modal onClose={() => setModalMessage(null)}>
-          <div className="p-6">
-            <h2 className="text-xl font-bold mb-4">AI Response</h2>
-            <p className="text-gray-300 mb-4">{modalMessage}</p>
+          <div className="p-6 flex flex-col items-center">
+            <ChatIcon className="text-green-500 text-6xl mb-4" />
+            <h2 className="text-2xl font-bold mb-4">Thank You!</h2>
+            <p className="text-gray-300 text-center mb-4">{modalMessage}</p>
             <button
               onClick={() => setModalMessage(null)}
               className="bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded-full text-white font-bold"
