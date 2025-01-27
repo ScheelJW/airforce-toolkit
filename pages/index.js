@@ -1,3 +1,5 @@
+// pages/index.js
+
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -10,13 +12,11 @@ import BookIcon from "@mui/icons-material/MenuBook";
 import CreateIcon from "@mui/icons-material/Create";
 
 // Your separate components
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import AuthModal from "../components/AuthModal";
+import Header from "../components/Header";   // NavBar only
+import Footer from "../components/Footer";   // Feedback form + disclaimers
+import AuthModal from "../components/AuthModal";   // If you have it separated
 
-
-
-// Or if you keep Card, CardContent, Modal in separate files, import them:
+// Card & Modal are named exports
 import { Card, CardContent } from "../components/Card";
 import { Modal } from "../components/Modal";
 
@@ -33,8 +33,9 @@ export default function HomePage() {
   let router;
   try {
     router = useRouter();
-  } catch (e) {
+  } catch (error) {
     console.error("Routing unavailable in this environment");
+    // fallback if not in Next
     router = { push: (path) => console.log(`Navigate to: ${path}`) };
   }
 
@@ -62,15 +63,15 @@ export default function HomePage() {
         const errorData = await response.json();
         setModalMessage(errorData.error);
       }
-    } catch (error) {
-      console.error("Error submitting feedback:", error);
+    } catch (err) {
+      console.error("Error submitting feedback:", err);
       setModalMessage("An error occurred while processing your feedback.");
     } finally {
       setSubmitting(false);
     }
   };
 
-  // Fetch existing feedback count
+  // Fetch existing feedback count from your backend
   const fetchFeedbackCount = async () => {
     try {
       const response = await fetch("/api/feedback-count");
@@ -102,7 +103,7 @@ export default function HomePage() {
     setShowRegister(false);
   };
 
-  // On mount, fetch count. Poll every 5 seconds
+  // On mount, fetch feedback count. Poll every 5s
   useEffect(() => {
     fetchFeedbackCount();
     const interval = setInterval(fetchFeedbackCount, 5000);
@@ -111,11 +112,25 @@ export default function HomePage() {
 
   return (
     <div className="bg-gradient-to-b from-blue-900 to-gray-900 text-white flex flex-col min-h-screen">
-      {/* Header (JUST the navbar) */}
+      {/* Header (nav bar only) */}
       <Header
         onLoginClick={() => setShowLogin(true)}
         onRegisterClick={() => setShowRegister(true)}
       />
+
+      {/* Hero / Heading Section */}
+      <header className="relative text-center py-10 flex flex-col items-center overflow-hidden px-2">
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-700 via-blue-800 to-indigo-900 opacity-50 blur-xl rounded-full w-72 h-72 -translate-y-20" />
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-2 tracking-tight text-white z-10 drop-shadow-lg">
+          Air Force Toolkit
+        </h1>
+        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 z-10 text-center leading-snug max-w-xl">
+          Empowering Airmen and Guardians with cutting-edge tools
+        </p>
+        <h2 className="text-xl sm:text-2xl font-semibold text-white z-10 mt-4">
+          Select an App
+        </h2>
+      </header>
 
       {/* Main content area */}
       <main className="px-4 sm:px-8 mb-8 mt-2 flex-1">
@@ -124,7 +139,9 @@ export default function HomePage() {
             <CardContent>
               <SecurityIcon className="text-blue-500 text-7xl mb-4" />
               <h2 className="text-xl font-bold mb-2">Safety & Standards Briefings</h2>
-              <p className="text-sm text-gray-300">Create tailored safety and standards briefings.</p>
+              <p className="text-sm text-gray-300">
+                Create tailored safety and standards briefings.
+              </p>
             </CardContent>
           </Card>
 
