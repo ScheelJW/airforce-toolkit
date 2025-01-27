@@ -73,9 +73,12 @@ export default function Footer({ feedbackCount = 0 }) {
       {/* Feedback Modal */}
       {showFeedbackModal && (
         <Modal onClose={() => setShowFeedbackModal(false)}>
-          <div className="p-6 flex flex-col items-center">
+          <div className="p-6 flex flex-col items-center max-w-2xl w-full">
             <ChatIcon className="text-blue-500 text-6xl mb-4" />
             <h2 className="text-2xl font-bold mb-4">Submit Your Feedback</h2>
+            <p className="text-sm text-gray-400 mb-6 text-center">
+              Your feedback is anonymous and helps us improve!
+            </p>
             <form
               onSubmit={(e) => {
                 handleSubmit(e);
@@ -111,7 +114,7 @@ export default function Footer({ feedbackCount = 0 }) {
       {/* Submission Response Modal */}
       {modalMessage && (
         <Modal onClose={() => setModalMessage(null)}>
-          <div className="p-6 flex flex-col items-center">
+          <div className="p-6 flex flex-col items-center max-w-2xl w-full">
             <ChatIcon className="text-green-500 text-6xl mb-4" />
             <h2 className="text-2xl font-bold mb-4">Thank You!</h2>
             <p className="text-gray-300 text-center mb-4">{modalMessage}</p>
