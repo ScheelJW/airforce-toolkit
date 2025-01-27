@@ -9,57 +9,14 @@ import ForumIcon from "@mui/icons-material/Forum";
 import BookIcon from "@mui/icons-material/MenuBook";
 import CreateIcon from "@mui/icons-material/Create";
 
-// Import the new Header & Footer components
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+// Your separate components
+import Header from "../components/Header"; // NavBar only
+import Footer from "../components/Footer"; // Feedback form + disclaimers
+import AuthModal from "../components/AuthModal"; // If you have it separated
 
-// If you have AuthModal, Card, CardContent, Modal as separate components, import them:
-// import AuthModal from "../components/AuthModal";
-// import { Card, CardContent } from "../components/Card";
-// import { Modal } from "../components/Modal";
-
-// For simplicity, let's define them inline here.
-// You can remove them if they're in separate files.
-const AuthModal = () => null; // placeholder
-const Card = ({ children, className, onClick }) => (
-  <div
-    className={"w-72 rounded-2xl shadow-lg bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-700 hover:from-blue-900 hover:to-blue-700 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl " + (className || "")}
-    onClick={onClick}
-    style={{
-      padding: "2rem",
-      cursor: onClick ? "pointer" : "default",
-      border: "1px solid #ffffff"
-    }}
-  >
-    {children}
-  </div>
-);
-
-const CardContent = ({ children, className }) => (
-  <div
-    className={"p-4 text-center " + (className || "")}
-    style={{ color: "#e0e7ff" }}
-  >
-    {children}
-  </div>
-);
-
-const Modal = ({ message, onClose }) => {
-  if (!message) return null;
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-gray-800 text-white rounded-lg shadow-xl p-6 max-w-md">
-        <p className="text-lg mb-4">{message}</p>
-        <button
-          onClick={onClose}
-          className="px-6 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  );
-};
+// Or if you keep Card, CardContent, Modal in separate files, import them:
+import { Card, CardContent } from "../components/Card";
+import { Modal } from "../components/Modal";
 
 export default function HomePage() {
   const [feedbackCount, setFeedbackCount] = useState(0);
@@ -70,6 +27,7 @@ export default function HomePage() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
+  // Next.js router
   let router;
   try {
     router = useRouter();
@@ -78,12 +36,12 @@ export default function HomePage() {
     router = { push: (path) => console.log(`Navigate to: ${path}`) };
   }
 
-  // Navigation to sub-pages
+  // Navigate to sub-pages
   const handleNavigation = (path) => {
     router.push(path);
   };
 
-  // Submitting feedback form
+  // Submit the feedback form
   const handleSubmit = async (e) => {
     e.preventDefault();
     const feedback = e.target.feedback.value;
@@ -110,7 +68,7 @@ export default function HomePage() {
     }
   };
 
-  // Fetch feedback count from server
+  // Fetch existing feedback count
   const fetchFeedbackCount = async () => {
     try {
       const response = await fetch("/api/feedback-count");
@@ -142,8 +100,8 @@ export default function HomePage() {
     setShowRegister(false);
   };
 
-  // On mount, fetch feedback count
-  React.useEffect(() => {
+  // On mount, fetch count. Poll every 5 seconds
+  useEffect(() => {
     fetchFeedbackCount();
     const interval = setInterval(fetchFeedbackCount, 5000);
     return () => clearInterval(interval);
@@ -151,16 +109,16 @@ export default function HomePage() {
 
   return (
     <div className="bg-gradient-to-b from-blue-900 to-gray-900 text-white flex flex-col min-h-screen">
-      {/* Our simple NavBar, imported from components/Header */}
+      {/* Header (JUST the navbar) */}
       <Header
         onLoginClick={() => setShowLogin(true)}
         onRegisterClick={() => setShowRegister(true)}
       />
 
-      {/* MAIN CONTENT: The hero was removed, but you can add it if desired. */}
+      {/* Main content area */}
       <main className="px-4 sm:px-8 mb-8 mt-2 flex-1">
         <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center max-w-6xl mx-auto">
-          <Card onClick={() => handleNavigation("/safety-standards-briefings")}>  
+          <Card onClick={() => handleNavigation("/safety-standards-briefings")}>
             <CardContent>
               <SecurityIcon className="text-blue-500 text-7xl mb-4" />
               <h2 className="text-xl font-bold mb-2">Safety & Standards Briefings</h2>
@@ -168,7 +126,7 @@ export default function HomePage() {
             </CardContent>
           </Card>
 
-          <Card onClick={() => handleNavigation("/epb-opb-drafter")}>  
+          <Card onClick={() => handleNavigation("/epb-opb-drafter")}>
             <CardContent>
               <EditIcon className="text-yellow-500 text-7xl mb-4" />
               <h2 className="text-xl font-bold mb-2">EPB/OPB Drafter</h2>
@@ -176,7 +134,7 @@ export default function HomePage() {
             </CardContent>
           </Card>
 
-          <Card onClick={() => handleNavigation("/news-updates")}>  
+          <Card onClick={() => handleNavigation("/news-updates")}>
             <CardContent>
               <PublicIcon className="text-green-500 text-7xl mb-4" />
               <h2 className="text-xl font-bold mb-2">News & Updates</h2>
@@ -184,43 +142,49 @@ export default function HomePage() {
             </CardContent>
           </Card>
 
-          <Card onClick={() => handleNavigation("/social")}>  
+          <Card onClick={() => handleNavigation("/social")}>
             <CardContent>
               <ForumIcon className="text-purple-500 text-7xl mb-4" />
               <h2 className="text-xl font-bold mb-2">Social Hub</h2>
-              <p className="text-sm text-gray-300">A community-driven space for Airmen and Guardians.</p>
+              <p className="text-sm text-gray-300">
+                A community-driven space for Airmen and Guardians.
+              </p>
             </CardContent>
           </Card>
 
-          <Card onClick={() => handleNavigation("/resources")}>  
+          <Card onClick={() => handleNavigation("/resources")}>
             <CardContent>
               <BookIcon className="text-yellow-400 text-7xl mb-4" />
               <h2 className="text-xl font-bold mb-2">Guides & How-Tos</h2>
-              <p className="text-sm text-gray-300">Explore guides and step-by-step how-tos.</p>
+              <p className="text-sm text-gray-300">
+                Explore guides and step-by-step how-tos.
+              </p>
             </CardContent>
           </Card>
 
-          <Card onClick={() => handleNavigation("/daf-writing-tools")}>  
+          <Card onClick={() => handleNavigation("/daf-writing-tools")}>
             <CardContent>
               <CreateIcon className="text-pink-500 text-7xl mb-4" />
               <h2 className="text-xl font-bold mb-2">DAF Writing Tools</h2>
-              <p className="text-sm text-gray-300">Enhance your Air Force & Space Force writing tasks.</p>
+              <p className="text-sm text-gray-300">
+                Enhance your Air Force & Space Force writing tasks.
+              </p>
             </CardContent>
           </Card>
         </div>
       </main>
 
-      {/* FOOTER: includes suggestions & disclaimers.  */}
+      {/* Footer (feedback form + disclaimers) */}
       <Footer
         feedbackCount={feedbackCount}
         submitting={submitting}
         handleSubmit={handleSubmit}
       />
 
-      {/* SERVER-RESPONSE MODAL */}
+      {/* Server response modal */}
       <Modal message={modalMessage} onClose={() => setModalMessage(null)} />
 
-      {/* AUTH MODALS */}
+      {/* Auth modals */}
       {showLogin && (
         <AuthModal
           isOpen={showLogin}
