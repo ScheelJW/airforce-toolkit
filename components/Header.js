@@ -1,8 +1,7 @@
-// components/Header.js
 import React from "react";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 
-const Header = ({ onLoginClick, onRegisterClick }) => {
+export default function Header({ onLoginClick, onRegisterClick }) {
   return (
     <nav className="flex justify-between items-center px-4 py-4 bg-gray-900 text-white shadow-lg">
       <div className="flex items-center space-x-2">
@@ -25,6 +24,4 @@ const Header = ({ onLoginClick, onRegisterClick }) => {
       </div>
     </nav>
   );
-};
-
-export default Header;
+}
