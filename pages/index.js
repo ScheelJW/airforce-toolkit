@@ -12,9 +12,9 @@ import BookIcon from "@mui/icons-material/MenuBook";
 import CreateIcon from "@mui/icons-material/Create";
 
 // Your separate components
-import Header from "../components/Header";   // NavBar only
-import Footer from "../components/Footer";   // Feedback form + disclaimers
-import AuthModal from "../components/AuthModal";   // If you have it separated
+import Header from "../components/Header";   // nav bar only
+import Footer from "../components/Footer";   // feedback form + disclaimers
+import AuthModal from "../components/AuthModal"; // if separate
 
 // Card & Modal are named exports
 import { Card, CardContent } from "../components/Card";
@@ -29,17 +29,15 @@ export default function HomePage() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
-  // Next.js router
   let router;
   try {
     router = useRouter();
   } catch (error) {
     console.error("Routing unavailable in this environment");
-    // fallback if not in Next
     router = { push: (path) => console.log(`Navigate to: ${path}`) };
   }
 
-  // Navigate to sub-pages
+  // Navigation to sub-pages
   const handleNavigation = (path) => {
     router.push(path);
   };
@@ -118,8 +116,8 @@ export default function HomePage() {
         onRegisterClick={() => setShowRegister(true)}
       />
 
-      {/* Hero / Heading Section */}
-      <header className="relative text-center py-10 flex flex-col items-center overflow-hidden px-2">
+      {/* Hero / Heading Section (NO overflow-hidden) */}
+      <header className="relative text-center py-10 flex flex-col items-center px-2">
         <div className="absolute inset-0 bg-gradient-to-tr from-blue-700 via-blue-800 to-indigo-900 opacity-50 blur-xl rounded-full w-72 h-72 -translate-y-20" />
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-2 tracking-tight text-white z-10 drop-shadow-lg">
           Air Force Toolkit
@@ -149,7 +147,9 @@ export default function HomePage() {
             <CardContent>
               <EditIcon className="text-yellow-500 text-7xl mb-4" />
               <h2 className="text-xl font-bold mb-2">EPB/OPB Drafter</h2>
-              <p className="text-sm text-gray-300">Draft content and receive tailored suggestions.</p>
+              <p className="text-sm text-gray-300">
+                Draft content and receive tailored suggestions.
+              </p>
             </CardContent>
           </Card>
 
@@ -157,7 +157,9 @@ export default function HomePage() {
             <CardContent>
               <PublicIcon className="text-green-500 text-7xl mb-4" />
               <h2 className="text-xl font-bold mb-2">News & Updates</h2>
-              <p className="text-sm text-gray-300">Stay updated with the latest developments.</p>
+              <p className="text-sm text-gray-300">
+                Stay updated with the latest developments.
+              </p>
             </CardContent>
           </Card>
 
