@@ -111,7 +111,7 @@ const HomePage = () => {
         <h1 className="text-5xl font-extrabold mb-4 tracking-tight text-white z-10 drop-shadow-lg">
           Air Force Toolkit
         </h1>
-        <p className="text-lg text-gray-300 z-10">Empowering Airmen and Guardians with cutting-edge tools</p>
+        <p className="text-base sm:text-lg text-gray-300 z-10 whitespace-nowrap overflow-hidden text-ellipsis">Empowering Airmen and Guardians with cutting-edge tools</p>
         <h2 className="text-2xl font-semibold text-white z-10 mt-6">Select an App</h2>
       </header>
 
