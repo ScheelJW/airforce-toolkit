@@ -16,7 +16,7 @@ import AuthModal from "../components/AuthModal"; // Login/Register modal
 
 // Card & Modal are named exports
 import { Card, CardContent } from "../components/Card";
-import { Modal } from "../components/Modal";
+import Modal from "../components/Modal";
 
 export default function HomePage() {
   const [feedbackCount, setFeedbackCount] = useState(0); // useState imported correctly
