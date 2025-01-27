@@ -1,6 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; // Correct import
+import { useRouter } from "next/router";
+
+// Icons for your main cards
+import SecurityIcon from "@mui/icons-material/Security";
+import PublicIcon from "@mui/icons-material/Public";
+import EditIcon from "@mui/icons-material/Edit";
+import ForumIcon from "@mui/icons-material/Forum";
+import BookIcon from "@mui/icons-material/MenuBook";
+import CreateIcon from "@mui/icons-material/Create";
+
+// Your separate components
+import Header from "../components/Header"; // NavBar only
+import Footer from "../components/Footer"; // Feedback form + disclaimers
+import AuthModal from "../components/AuthModal"; // Login/Register modal
+
+// Card & Modal are named exports
+import { Card, CardContent } from "../components/Card";
+import { Modal } from "../components/Modal";
+
 export default function HomePage() {
-  const [feedbackCount, setFeedbackCount] = useState(0);
+  const [feedbackCount, setFeedbackCount] = useState(0); // useState imported correctly
   const [submitting, setSubmitting] = useState(false);
   const [modalMessage, setModalMessage] = useState(null);
 
@@ -8,13 +27,7 @@ export default function HomePage() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
-  let router;
-  try {
-    router = useRouter();
-  } catch (error) {
-    console.error("Routing unavailable in this environment");
-    router = { push: (path) => console.log(`Navigate to: ${path}`) };
-  }
+  const router = useRouter();
 
   const handleNavigation = (path) => {
     router.push(path);
@@ -74,7 +87,6 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <header className="relative text-center py-16 flex flex-col items-center px-4">
-        {/* Background Circle */}
         <div className="absolute inset-0 bg-gradient-to-tr from-blue-700 via-blue-800 to-indigo-900 opacity-50 blur-xl rounded-full w-96 h-96 -translate-y-32" />
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 tracking-tight text-white z-10 drop-shadow-lg">
           Air Force Toolkit
