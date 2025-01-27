@@ -70,9 +70,9 @@ export default function HomePage() {
       {/* Main Content */}
       <main className="px-4 sm:px-8 mb-8 mt-2 flex-1">
         <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center max-w-6xl mx-auto">
-          <div
+          <Card
+            className="w-64 h-64 cursor-default hover:scale-105 transition-transform"
             onClick={() => handleNavigation("/safety-standards-briefings")}
-            className="w-64 h-64 cursor-pointer hover:scale-105 transition-transform"
           >
             <CardContent className="flex flex-col justify-center items-center h-full">
               <SecurityIcon className="text-blue-500 text-7xl mb-4" />
@@ -83,11 +83,11 @@ export default function HomePage() {
                 Create tailored safety and standards briefings.
               </p>
             </CardContent>
-          </div>
+          </Card>
 
-          <div
+          <Card
+            className="w-64 h-64 cursor-default hover:scale-105 transition-transform"
             onClick={() => handleNavigation("/epb-opb-drafter")}
-            className="w-64 h-64 cursor-pointer hover:scale-105 transition-transform"
           >
             <CardContent className="flex flex-col justify-center items-center h-full">
               <EditIcon className="text-yellow-500 text-7xl mb-4" />
@@ -96,11 +96,11 @@ export default function HomePage() {
                 Draft content and receive tailored suggestions.
               </p>
             </CardContent>
-          </div>
+          </Card>
 
-          <div
+          <Card
+            className="w-64 h-64 cursor-default hover:scale-105 transition-transform"
             onClick={() => handleNavigation("/news-updates")}
-            className="w-64 h-64 cursor-pointer hover:scale-105 transition-transform"
           >
             <CardContent className="flex flex-col justify-center items-center h-full">
               <PublicIcon className="text-green-500 text-7xl mb-4" />
@@ -109,11 +109,11 @@ export default function HomePage() {
                 Stay updated with the latest developments.
               </p>
             </CardContent>
-          </div>
+          </Card>
 
-          <div
+          <Card
+            className="w-64 h-64 cursor-default hover:scale-105 transition-transform"
             onClick={() => handleNavigation("/social")}
-            className="w-64 h-64 cursor-pointer hover:scale-105 transition-transform"
           >
             <CardContent className="flex flex-col justify-center items-center h-full">
               <ForumIcon className="text-purple-500 text-7xl mb-4" />
@@ -122,11 +122,11 @@ export default function HomePage() {
                 A community-driven space for Airmen and Guardians.
               </p>
             </CardContent>
-          </div>
+          </Card>
 
-          <div
+          <Card
+            className="w-64 h-64 cursor-default hover:scale-105 transition-transform"
             onClick={() => handleNavigation("/resources")}
-            className="w-64 h-64 cursor-pointer hover:scale-105 transition-transform"
           >
             <CardContent className="flex flex-col justify-center items-center h-full">
               <BookIcon className="text-yellow-400 text-7xl mb-4" />
@@ -135,11 +135,11 @@ export default function HomePage() {
                 Explore guides and step-by-step how-tos.
               </p>
             </CardContent>
-          </div>
+          </Card>
 
-          <div
+          <Card
+            className="w-64 h-64 cursor-default hover:scale-105 transition-transform"
             onClick={() => handleNavigation("/daf-writing-tools")}
-            className="w-64 h-64 cursor-pointer hover:scale-105 transition-transform"
           >
             <CardContent className="flex flex-col justify-center items-center h-full">
               <CreateIcon className="text-pink-500 text-7xl mb-4" />
@@ -148,7 +148,7 @@ export default function HomePage() {
                 Enhance your Air Force & Space Force writing tasks.
               </p>
             </CardContent>
-          </div>
+          </Card>
         </div>
       </main>
 
