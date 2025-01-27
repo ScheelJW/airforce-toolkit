@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Modal from "./Modal"; // Ensure this is correctly imported
+import Modal from "./Modal"; // Ensure Modal is imported correctly
 
 export default function Footer({ feedbackCount = 0, handleSubmit }) {
-  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false); // Default to false
 
   return (
     <>
@@ -10,7 +10,7 @@ export default function Footer({ feedbackCount = 0, handleSubmit }) {
       <div className="bg-gray-800 py-4 px-4 sm:px-8 rounded-t-2xl shadow-inner">
         <div className="flex justify-center">
           <button
-            onClick={() => setShowFeedbackModal(true)}
+            onClick={() => setShowFeedbackModal(true)} // Open modal on button click
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
           >
             Provide Feedback
@@ -38,12 +38,9 @@ export default function Footer({ feedbackCount = 0, handleSubmit }) {
       </footer>
 
       {/* Feedback Modal */}
-      {showFeedbackModal && (
+      {showFeedbackModal && ( // Show modal only when showFeedbackModal is true
         <Modal
-          onClose={() => {
-            console.log("Modal closed");
-            setShowFeedbackModal(false);
-          }}
+          onClose={() => setShowFeedbackModal(false)} // Close modal on close button click
         >
           <div className="p-6">
             <h2 className="text-xl font-bold mb-4">Submit Your Feedback</h2>
@@ -51,7 +48,7 @@ export default function Footer({ feedbackCount = 0, handleSubmit }) {
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSubmit(e);
-                setShowFeedbackModal(false); // Ensure modal closes on submit
+                setShowFeedbackModal(false); // Close modal after feedback submission
               }}
               className="flex flex-col gap-4"
             >
