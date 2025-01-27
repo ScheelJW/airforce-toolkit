@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Modal from "./Modal"; // Ensure Modal is correctly imported
+import Modal from "./Modal"; // Ensure this is correctly imported
 
-export default function Footer({ feedbackCount, handleSubmit }) {
+export default function Footer({ feedbackCount = 0, handleSubmit }) {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
   return (
@@ -39,14 +39,19 @@ export default function Footer({ feedbackCount, handleSubmit }) {
 
       {/* Feedback Modal */}
       {showFeedbackModal && (
-        <Modal onClose={() => setShowFeedbackModal(false)}>
+        <Modal
+          onClose={() => {
+            console.log("Modal closed");
+            setShowFeedbackModal(false);
+          }}
+        >
           <div className="p-6">
             <h2 className="text-xl font-bold mb-4">Submit Your Feedback</h2>
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSubmit(e);
-                setShowFeedbackModal(false); // Close modal after submission
+                setShowFeedbackModal(false); // Ensure modal closes on submit
               }}
               className="flex flex-col gap-4"
             >
