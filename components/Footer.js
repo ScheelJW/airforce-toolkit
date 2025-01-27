@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import Modal from "./Modal"; // Ensure Modal is imported correctly
 
 export default function Footer({ feedbackCount = 0 }) {
-  const [showFeedbackModal, setShowFeedbackModal] = useState(false); // State for modal visibility
-  const [submitting, setSubmitting] = useState(false); // State for feedback submission status
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false); // Feedback form modal state
+  const [modalMessage, setModalMessage] = useState(null); // AI response modal state
+  const [submitting, setSubmitting] = useState(false); // Submission loading state
 
   // Handle feedback submission
   const handleSubmit = async (e) => {
@@ -19,15 +20,16 @@ export default function Footer({ feedbackCount = 0 }) {
       });
 
       if (response.ok) {
-        alert("Feedback submitted successfully!");
-        setShowFeedbackModal(false); // Close modal after submission
+        const data = await response.json();
+        setModalMessage(data.message || "Thank you for your feedback!"); // Display AI response
+        setShowFeedbackModal(false); // Close the feedback form modal
       } else {
         const errorData = await response.json();
-        alert(errorData.error || "Failed to submit feedback.");
+        setModalMessage(errorData.error || "Failed to submit feedback.");
       }
     } catch (err) {
       console.error("Error submitting feedback:", err);
-      alert("An error occurred while submitting feedback.");
+      setModalMessage("An error occurred while submitting your feedback.");
     } finally {
       setSubmitting(false);
     }
@@ -39,7 +41,7 @@ export default function Footer({ feedbackCount = 0 }) {
       <div className="bg-gray-800 py-4 px-4 sm:px-8 rounded-t-2xl shadow-inner">
         <div className="flex justify-center">
           <button
-            onClick={() => setShowFeedbackModal(true)} // Open modal
+            onClick={() => setShowFeedbackModal(true)} // Open feedback form modal
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
           >
             Provide Feedback
@@ -99,6 +101,22 @@ export default function Footer({ feedbackCount = 0 }) {
             <p className="text-sm text-gray-400 mt-4">
               {feedbackCount || 0} feedbacks provided.
             </p>
+          </div>
+        </Modal>
+      )}
+
+      {/* AI Response Modal */}
+      {modalMessage && (
+        <Modal onClose={() => setModalMessage(null)}>
+          <div className="p-6">
+            <h2 className="text-xl font-bold mb-4">AI Response</h2>
+            <p className="text-gray-300 mb-4">{modalMessage}</p>
+            <button
+              onClick={() => setModalMessage(null)}
+              className="bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded-full text-white font-bold"
+            >
+              Close
+            </button>
           </div>
         </Modal>
       )}
