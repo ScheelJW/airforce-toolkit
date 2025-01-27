@@ -111,11 +111,15 @@ const HomePage = () => {
         <h1 className="text-5xl font-extrabold mb-4 tracking-tight text-white z-10 drop-shadow-lg">
           Air Force Toolkit
         </h1>
-        <p className="text-base sm:text-lg text-gray-300 z-10 whitespace-nowrap overflow-hidden text-ellipsis">Empowering Airmen and Guardians with cutting-edge tools</p>
+        {/* Let text grow on larger screens and remain centered. Removed forced small width. */}
+        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 z-10 text-center max-w-4xl leading-snug">
+          Empowering Airmen and Guardians with cutting-edge tools
+        </p>
         <h2 className="text-2xl font-semibold text-white z-10 mt-6">Select an App</h2>
       </header>
 
-      <main className="px-4 sm:px-8 mb-8 mt-[-4rem]">
+      {/* Removed negative margin so spacing is consistent on large screens */}
+      <main className="px-4 sm:px-8 mb-8">
         <div className="flex flex-wrap gap-8 justify-center">
           <Card onClick={() => handleNavigation("/safety-standards-briefings")}>  
             <CardContent>
