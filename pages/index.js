@@ -8,23 +8,22 @@ import EditIcon from "@mui/icons-material/Edit";
 import ForumIcon from "@mui/icons-material/Forum";
 import BookIcon from "@mui/icons-material/MenuBook";
 import CreateIcon from "@mui/icons-material/Create";
+import ConstructionIcon from "@mui/icons-material/Construction"; // Icon for "Coming Soon"
 
 // Your separate components
 import Header from "../components/Header"; // NavBar only
 import Footer from "../components/Footer"; // Feedback modal + button included here
+import Modal from "../components/Modal"; // Reusable modal
 import AuthModal from "../components/AuthModal"; // Login/Register modal
 import { Card, CardContent } from "../components/Card"; // Cards for main apps
 
 export default function HomePage() {
   const [feedbackCount, setFeedbackCount] = useState(0); // Tracks the number of feedbacks
+  const [showComingSoonModal, setShowComingSoonModal] = useState(false); // Controls the "Coming Soon" modal
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
   const router = useRouter();
-
-  const handleNavigation = (path) => {
-    router.push(path);
-  };
 
   useEffect(() => {
     // Fetch feedback count from API
@@ -44,6 +43,10 @@ export default function HomePage() {
     const interval = setInterval(fetchFeedbackCount, 5000); // Refresh feedback count every 5 seconds
     return () => clearInterval(interval);
   }, []);
+
+  const handleCardClick = () => {
+    setShowComingSoonModal(true); // Open the "Coming Soon" modal
+  };
 
   return (
     <div className="bg-gradient-to-b from-blue-900 to-gray-900 text-white flex flex-col min-h-screen">
@@ -70,102 +73,76 @@ export default function HomePage() {
       {/* Main Content */}
       <main className="px-4 sm:px-8 mb-8 mt-2 flex-1">
         <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center max-w-6xl mx-auto">
-          <div
-            onClick={() => handleNavigation("/safety-standards-briefings")}
-            className="cursor-default hover:scale-105 transition-transform"
-          >
-            <Card className="w-64 h-64">
-              <CardContent className="flex flex-col justify-center items-center h-full">
-                <SecurityIcon className="text-blue-500 text-7xl mb-4" />
-                <h2 className="text-xl font-bold mb-2 text-center">
-                  Safety & Standards Briefings
-                </h2>
-                <p className="text-sm text-gray-300 text-center">
-                  Create tailored safety and standards briefings.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div
-            onClick={() => handleNavigation("/epb-opb-drafter")}
-            className="cursor-default hover:scale-105 transition-transform"
-          >
-            <Card className="w-64 h-64">
-              <CardContent className="flex flex-col justify-center items-center h-full">
-                <EditIcon className="text-yellow-500 text-7xl mb-4" />
-                <h2 className="text-xl font-bold mb-2 text-center">EPB/OPB Drafter</h2>
-                <p className="text-sm text-gray-300 text-center">
-                  Draft content and receive tailored suggestions.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div
-            onClick={() => handleNavigation("/news-updates")}
-            className="cursor-default hover:scale-105 transition-transform"
-          >
-            <Card className="w-64 h-64">
-              <CardContent className="flex flex-col justify-center items-center h-full">
-                <PublicIcon className="text-green-500 text-7xl mb-4" />
-                <h2 className="text-xl font-bold mb-2 text-center">News & Updates</h2>
-                <p className="text-sm text-gray-300 text-center">
-                  Stay updated with the latest developments.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div
-            onClick={() => handleNavigation("/social")}
-            className="cursor-default hover:scale-105 transition-transform"
-          >
-            <Card className="w-64 h-64">
-              <CardContent className="flex flex-col justify-center items-center h-full">
-                <ForumIcon className="text-purple-500 text-7xl mb-4" />
-                <h2 className="text-xl font-bold mb-2 text-center">Social Hub</h2>
-                <p className="text-sm text-gray-300 text-center">
-                  A community-driven space for Airmen and Guardians.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div
-            onClick={() => handleNavigation("/resources")}
-            className="cursor-default hover:scale-105 transition-transform"
-          >
-            <Card className="w-64 h-64">
-              <CardContent className="flex flex-col justify-center items-center h-full">
-                <BookIcon className="text-yellow-400 text-7xl mb-4" />
-                <h2 className="text-xl font-bold mb-2 text-center">Guides & How-Tos</h2>
-                <p className="text-sm text-gray-300 text-center">
-                  Explore guides and step-by-step how-tos.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div
-            onClick={() => handleNavigation("/daf-writing-tools")}
-            className="cursor-default hover:scale-105 transition-transform"
-          >
-            <Card className="w-64 h-64">
-              <CardContent className="flex flex-col justify-center items-center h-full">
-                <CreateIcon className="text-pink-500 text-7xl mb-4" />
-                <h2 className="text-xl font-bold mb-2 text-center">DAF Writing Tools</h2>
-                <p className="text-sm text-gray-300 text-center">
-                  Enhance your Air Force & Space Force writing tasks.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
+          {[
+            {
+              icon: <SecurityIcon className="text-blue-500 text-7xl mb-4" />,
+              title: "Safety & Standards Briefings",
+              description: "Create tailored safety and standards briefings.",
+            },
+            {
+              icon: <EditIcon className="text-yellow-500 text-7xl mb-4" />,
+              title: "EPB/OPB Drafter",
+              description: "Draft content and receive tailored suggestions.",
+            },
+            {
+              icon: <PublicIcon className="text-green-500 text-7xl mb-4" />,
+              title: "News & Updates",
+              description: "Stay updated with the latest developments.",
+            },
+            {
+              icon: <ForumIcon className="text-purple-500 text-7xl mb-4" />,
+              title: "Social Hub",
+              description: "A community-driven space for Airmen and Guardians.",
+            },
+            {
+              icon: <BookIcon className="text-yellow-400 text-7xl mb-4" />,
+              title: "Guides & How-Tos",
+              description: "Explore guides and step-by-step how-tos.",
+            },
+            {
+              icon: <CreateIcon className="text-pink-500 text-7xl mb-4" />,
+              title: "DAF Writing Tools",
+              description: "Enhance your Air Force & Space Force writing tasks.",
+            },
+          ].map((card, index) => (
+            <div
+              key={index}
+              onClick={handleCardClick}
+              className="cursor-default hover:scale-105 transition-transform"
+            >
+              <Card className="w-64 h-64">
+                <CardContent className="flex flex-col justify-center items-center h-full">
+                  {card.icon}
+                  <h2 className="text-xl font-bold mb-2 text-center">{card.title}</h2>
+                  <p className="text-sm text-gray-300 text-center">{card.description}</p>
+                </CardContent>
+              </Card>
+            </div>
+          ))}
         </div>
       </main>
 
       {/* Footer with Feedback Modal */}
       <Footer feedbackCount={feedbackCount} />
+
+      {/* Coming Soon Modal */}
+      {showComingSoonModal && (
+        <Modal onClose={() => setShowComingSoonModal(false)}>
+          <div className="p-6 flex flex-col items-center max-w-2xl w-full">
+            <ConstructionIcon className="text-yellow-500 text-6xl mb-4" />
+            <h2 className="text-2xl font-bold mb-4">Coming Soon!</h2>
+            <p className="text-gray-300 text-center mb-4">
+              This feature is under construction. Stay tuned for updates!
+            </p>
+            <button
+              onClick={() => setShowComingSoonModal(false)}
+              className="bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded-full text-white font-bold"
+            >
+              Close
+            </button>
+          </div>
+        </Modal>
+      )}
 
       {/* Auth Modals */}
       {showLogin && (
