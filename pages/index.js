@@ -10,9 +10,11 @@ import BookIcon from "@mui/icons-material/MenuBook";
 import CreateIcon from "@mui/icons-material/Create";
 
 // Your separate components
-import Header from "../components/Header"; // NavBar only
-import Footer from "../components/Footer"; // Feedback form + disclaimers
-import AuthModal from "../components/AuthModal"; // If you have it separated
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import AuthModal from "../components/AuthModal";
+
+
 
 // Or if you keep Card, CardContent, Modal in separate files, import them:
 import { Card, CardContent } from "../components/Card";
