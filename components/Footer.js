@@ -1,8 +1,37 @@
 import React, { useState } from "react";
 import Modal from "./Modal"; // Ensure Modal is imported correctly
 
-export default function Footer({ feedbackCount = 0, handleSubmit }) {
-  const [showFeedbackModal, setShowFeedbackModal] = useState(false); // Default to false
+export default function Footer({ feedbackCount = 0 }) {
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false); // State for modal visibility
+  const [submitting, setSubmitting] = useState(false); // State for feedback submission status
+
+  // Handle feedback submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const feedback = e.target.feedback.value;
+    setSubmitting(true);
+
+    try {
+      const response = await fetch("/api/submit-feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ feedback }),
+      });
+
+      if (response.ok) {
+        alert("Feedback submitted successfully!");
+        setShowFeedbackModal(false); // Close modal after submission
+      } else {
+        const errorData = await response.json();
+        alert(errorData.error || "Failed to submit feedback.");
+      }
+    } catch (err) {
+      console.error("Error submitting feedback:", err);
+      alert("An error occurred while submitting feedback.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -10,7 +39,7 @@ export default function Footer({ feedbackCount = 0, handleSubmit }) {
       <div className="bg-gray-800 py-4 px-4 sm:px-8 rounded-t-2xl shadow-inner">
         <div className="flex justify-center">
           <button
-            onClick={() => setShowFeedbackModal(true)} // Open modal on button click
+            onClick={() => setShowFeedbackModal(true)} // Open modal
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
           >
             Provide Feedback
@@ -38,17 +67,13 @@ export default function Footer({ feedbackCount = 0, handleSubmit }) {
       </footer>
 
       {/* Feedback Modal */}
-      {showFeedbackModal && ( // Show modal only when showFeedbackModal is true
-        <Modal
-          onClose={() => setShowFeedbackModal(false)} // Close modal on close button click
-        >
+      {showFeedbackModal && (
+        <Modal onClose={() => setShowFeedbackModal(false)}>
           <div className="p-6">
             <h2 className="text-xl font-bold mb-4">Submit Your Feedback</h2>
             <form
               onSubmit={(e) => {
-                e.preventDefault();
                 handleSubmit(e);
-                setShowFeedbackModal(false); // Close modal after feedback submission
               }}
               className="flex flex-col gap-4"
             >
@@ -57,12 +82,18 @@ export default function Footer({ feedbackCount = 0, handleSubmit }) {
                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-500"
                 rows="5"
                 placeholder="Share your thoughts or feedback here..."
+                required
               ></textarea>
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded-full text-white font-bold"
+                disabled={submitting}
+                className={`py-2 px-4 rounded-full font-bold text-white ${
+                  submitting
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700"
+                }`}
               >
-                Submit Feedback
+                {submitting ? "Submitting..." : "Submit Feedback"}
               </button>
             </form>
             <p className="text-sm text-gray-400 mt-4">
