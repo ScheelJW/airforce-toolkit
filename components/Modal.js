@@ -1,15 +1,8 @@
-// components/Modal.js
 import React from "react";
 
-/**
- * Basic modal for showing a message (e.g. server response) with a Close button.
- *
- * Usage:
- *  <Modal message={modalMessage} onClose={() => setModalMessage(null)} />
- */
-export const Modal = ({ message, onClose }) => {
+/** Named export for Modal */
+export function Modal({ message, onClose }) {
   if (!message) return null;
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-gray-800 text-white rounded-lg shadow-xl p-6 max-w-md">
@@ -23,4 +16,4 @@ export const Modal = ({ message, onClose }) => {
       </div>
     </div>
   );
-};
+}
