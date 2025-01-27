@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 import { useRouter } from "next/router";
 import SecurityIcon from "@mui/icons-material/Security";
 import PublicIcon from "@mui/icons-material/Public";
@@ -13,12 +14,7 @@ const NavBar = ({ onLoginClick, onRegisterClick }) => {
   return (
     <nav className="flex justify-between items-center px-4 py-4 bg-gray-900 text-white shadow-lg">
       <div className="flex items-center space-x-2">
-        <img
-          src="/logo.png" // placeholder, replace with real logo
-          alt="Air Force Toolkit Logo"
-          className="w-8 h-8"
-        />
-        <span className="font-bold text-xl">Air Force Toolkit</span>
+        <MilitaryTechIcon className="text-blue-500 text-3xl" /><span className="font-bold text-xl">Air Force Toolkit</span>
       </div>
       <div className="flex space-x-4">
         <button
