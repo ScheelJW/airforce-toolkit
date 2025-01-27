@@ -131,21 +131,20 @@ export default function HomePage() {
       </header>
 
       {/* Main content area */}
-    <main className="px-4 sm:px-8 mb-8 mt-2 flex-1">
-  <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center max-w-6xl mx-auto items-stretch">
-    
-    <Card className="h-full" onClick={() => handleNavigation("/safety-standards-briefings")}>
-      <CardContent className="flex flex-col justify-center h-full">
+   <main className="px-4 sm:px-8 mb-8 mt-2 flex-1">
+  <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center max-w-6xl mx-auto">
+    <Card className="w-64" onClick={() => handleNavigation("/safety-standards-briefings")}>
+      <CardContent className="flex flex-col items-center justify-center">
         <SecurityIcon className="text-blue-500 text-7xl mb-4" />
-        <h2 className="text-xl font-bold mb-2">Safety & Standards Briefings</h2>
+        <h2 className="text-xl font-bold mb-2">Safety &amp; Standards Briefings</h2>
         <p className="text-sm text-gray-300">
           Create tailored safety and standards briefings.
         </p>
       </CardContent>
     </Card>
 
-    <Card className="h-full" onClick={() => handleNavigation("/epb-opb-drafter")}>
-      <CardContent className="flex flex-col justify-center h-full">
+    <Card className="w-64" onClick={() => handleNavigation("/epb-opb-drafter")}>
+      <CardContent className="flex flex-col items-center justify-center">
         <EditIcon className="text-yellow-500 text-7xl mb-4" />
         <h2 className="text-xl font-bold mb-2">EPB/OPB Drafter</h2>
         <p className="text-sm text-gray-300">
@@ -154,18 +153,18 @@ export default function HomePage() {
       </CardContent>
     </Card>
 
-    <Card className="h-full" onClick={() => handleNavigation("/news-updates")}>
-      <CardContent className="flex flex-col justify-center h-full">
+    <Card className="w-64" onClick={() => handleNavigation("/news-updates")}>
+      <CardContent className="flex flex-col items-center justify-center">
         <PublicIcon className="text-green-500 text-7xl mb-4" />
-        <h2 className="text-xl font-bold mb-2">News & Updates</h2>
+        <h2 className="text-xl font-bold mb-2">News &amp; Updates</h2>
         <p className="text-sm text-gray-300">
           Stay updated with the latest developments.
         </p>
       </CardContent>
     </Card>
 
-    <Card className="h-full" onClick={() => handleNavigation("/social")}>
-      <CardContent className="flex flex-col justify-center h-full">
+    <Card className="w-64" onClick={() => handleNavigation("/social")}>
+      <CardContent className="flex flex-col items-center justify-center">
         <ForumIcon className="text-purple-500 text-7xl mb-4" />
         <h2 className="text-xl font-bold mb-2">Social Hub</h2>
         <p className="text-sm text-gray-300">
@@ -174,8 +173,8 @@ export default function HomePage() {
       </CardContent>
     </Card>
 
-    <Card className="h-full" onClick={() => handleNavigation("/resources")}>
-      <CardContent className="flex flex-col justify-center h-full">
+    <Card className="w-64" onClick={() => handleNavigation("/resources")}>
+      <CardContent className="flex flex-col items-center justify-center">
         <BookIcon className="text-yellow-400 text-7xl mb-4" />
         <h2 className="text-xl font-bold mb-2">Guides &amp; How-Tos</h2>
         <p className="text-sm text-gray-300">
@@ -184,8 +183,8 @@ export default function HomePage() {
       </CardContent>
     </Card>
 
-    <Card className="h-full" onClick={() => handleNavigation("/daf-writing-tools")}>
-      <CardContent className="flex flex-col justify-center h-full">
+    <Card className="w-64" onClick={() => handleNavigation("/daf-writing-tools")}>
+      <CardContent className="flex flex-col items-center justify-center">
         <CreateIcon className="text-pink-500 text-7xl mb-4" />
         <h2 className="text-xl font-bold mb-2">DAF Writing Tools</h2>
         <p className="text-sm text-gray-300">
@@ -193,9 +192,9 @@ export default function HomePage() {
         </p>
       </CardContent>
     </Card>
-
   </div>
 </main>
+
 
 
       {/* Footer (feedback form + disclaimers) */}
