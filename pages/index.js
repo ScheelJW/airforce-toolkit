@@ -72,9 +72,9 @@ export default function HomePage() {
         <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center max-w-6xl mx-auto">
           <div
             onClick={() => handleNavigation("/safety-standards-briefings")}
-            className="w-64 h-64"
+            className="cursor-default hover:scale-105 transition-transform"
           >
-            <Card className="cursor-default hover:scale-105 transition-transform">
+            <Card className="w-64 h-64">
               <CardContent className="flex flex-col justify-center items-center h-full">
                 <SecurityIcon className="text-blue-500 text-7xl mb-4" />
                 <h2 className="text-xl font-bold mb-2 text-center">
@@ -89,9 +89,9 @@ export default function HomePage() {
 
           <div
             onClick={() => handleNavigation("/epb-opb-drafter")}
-            className="w-64 h-64"
+            className="cursor-default hover:scale-105 transition-transform"
           >
-            <Card className="cursor-default hover:scale-105 transition-transform">
+            <Card className="w-64 h-64">
               <CardContent className="flex flex-col justify-center items-center h-full">
                 <EditIcon className="text-yellow-500 text-7xl mb-4" />
                 <h2 className="text-xl font-bold mb-2 text-center">EPB/OPB Drafter</h2>
@@ -104,9 +104,9 @@ export default function HomePage() {
 
           <div
             onClick={() => handleNavigation("/news-updates")}
-            className="w-64 h-64"
+            className="cursor-default hover:scale-105 transition-transform"
           >
-            <Card className="cursor-default hover:scale-105 transition-transform">
+            <Card className="w-64 h-64">
               <CardContent className="flex flex-col justify-center items-center h-full">
                 <PublicIcon className="text-green-500 text-7xl mb-4" />
                 <h2 className="text-xl font-bold mb-2 text-center">News & Updates</h2>
@@ -119,9 +119,9 @@ export default function HomePage() {
 
           <div
             onClick={() => handleNavigation("/social")}
-            className="w-64 h-64"
+            className="cursor-default hover:scale-105 transition-transform"
           >
-            <Card className="cursor-default hover:scale-105 transition-transform">
+            <Card className="w-64 h-64">
               <CardContent className="flex flex-col justify-center items-center h-full">
                 <ForumIcon className="text-purple-500 text-7xl mb-4" />
                 <h2 className="text-xl font-bold mb-2 text-center">Social Hub</h2>
@@ -134,9 +134,9 @@ export default function HomePage() {
 
           <div
             onClick={() => handleNavigation("/resources")}
-            className="w-64 h-64"
+            className="cursor-default hover:scale-105 transition-transform"
           >
-            <Card className="cursor-default hover:scale-105 transition-transform">
+            <Card className="w-64 h-64">
               <CardContent className="flex flex-col justify-center items-center h-full">
                 <BookIcon className="text-yellow-400 text-7xl mb-4" />
                 <h2 className="text-xl font-bold mb-2 text-center">Guides & How-Tos</h2>
@@ -149,9 +149,9 @@ export default function HomePage() {
 
           <div
             onClick={() => handleNavigation("/daf-writing-tools")}
-            className="w-64 h-64"
+            className="cursor-default hover:scale-105 transition-transform"
           >
-            <Card className="cursor-default hover:scale-105 transition-transform">
+            <Card className="w-64 h-64">
               <CardContent className="flex flex-col justify-center items-center h-full">
                 <CreateIcon className="text-pink-500 text-7xl mb-4" />
                 <h2 className="text-xl font-bold mb-2 text-center">DAF Writing Tools</h2>
