@@ -1,11 +1,7 @@
-// components/AuthModal.js
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
-// If you keep a separate Input.js, import it here.
-// For now, we'll inline a minimal Input component:
 const Input = ({ label, type = "text", name, required = false, options }) => {
-  // If "options" array is provided, render a dropdown
   if (options) {
     return (
       <label className="block mb-3">
@@ -26,7 +22,6 @@ const Input = ({ label, type = "text", name, required = false, options }) => {
     );
   }
 
-  // Otherwise, standard text/password/email input
   return (
     <label className="block mb-3">
       <span className="block mb-1 text-gray-200 font-semibold">{label}</span>
@@ -40,21 +35,13 @@ const Input = ({ label, type = "text", name, required = false, options }) => {
   );
 };
 
-/**
- * AuthModal: Renders either a Login or Register form,
- * with a left gradient panel describing benefits if it's Register mode.
- */
-const AuthModal = ({ isOpen, onClose, onSubmit, title }) => {
+export default function AuthModal({ isOpen, onClose, onSubmit, title }) {
   if (!isOpen) return null;
 
   const isRegister = title === "Register";
-
-  // Decide on a gradient background for the left panel
   const gradientBg = isRegister
     ? "from-blue-600 to-indigo-600"
     : "from-teal-600 to-green-600";
-
-  // Side panel text
   const sideTitle = isRegister ? "Why Register?" : "Welcome Back!";
   const sideParagraph = isRegister
     ? [
@@ -68,16 +55,14 @@ const AuthModal = ({ isOpen, onClose, onSubmit, title }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 md:p-0">
       <div className="relative bg-gray-800 text-white rounded-lg shadow-2xl w-full max-w-lg md:max-w-3xl overflow-hidden">
-        {/* Close button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-300 hover:text-gray-100 transition"
         >
           <CloseIcon />
         </button>
-
         <div className="grid grid-cols-1 md:grid-cols-2">
-          {/* Left gradient panel */}
+          {/* Left side gradient panel */}
           <div
             className={`hidden md:flex flex-col justify-center items-start p-8 bg-gradient-to-br ${gradientBg} text-white`}
           >
@@ -100,28 +85,20 @@ const AuthModal = ({ isOpen, onClose, onSubmit, title }) => {
             )}
           </div>
 
-          {/* Right form panel */}
+          {/* Right side: the form */}
           <div className="p-6 md:p-8">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-center">
-              {title}
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-center">{title}</h2>
             <form onSubmit={onSubmit} className="flex flex-col gap-4">
               <Input label="Email" name="email" type="email" required />
               <Input label="Password" name="password" type="password" required />
 
-              {/* If Register, show BaseName & AFSC dropdowns */}
               {isRegister && (
                 <>
                   <Input
                     label="Base Name"
                     name="baseName"
                     required
-                    options={[
-                      "Andrews AFB",
-                      "Ramstein AB",
-                      "Eglin AFB",
-                      "Lackland AFB",
-                    ]}
+                    options={["Andrews AFB", "Ramstein AB", "Eglin AFB", "Lackland AFB"]}
                   />
                   <Input
                     label="AFSC"
@@ -149,6 +126,4 @@ const AuthModal = ({ isOpen, onClose, onSubmit, title }) => {
       </div>
     </div>
   );
-};
-
-export default AuthModal;
+}
