@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import Modal from "./Modal"; // Ensure Modal is imported correctly
 import ChatIcon from "@mui/icons-material/Chat"; // Icon for feedback
+import ErrorIcon from "@mui/icons-material/Error"; // Icon for error messages
 
 export default function Footer({ feedbackCount = 0 }) {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false); // Feedback form modal state
   const [modalMessage, setModalMessage] = useState(null); // Submission response message
+  const [isError, setIsError] = useState(false); // Tracks if the modal is showing an error
   const [submitting, setSubmitting] = useState(false); // Submission loading state
 
   // Handle feedback submission
@@ -23,16 +25,19 @@ export default function Footer({ feedbackCount = 0 }) {
       if (response.ok) {
         const data = await response.json();
         setModalMessage(data.message || "Thank you for your feedback!"); // Display submission response
-        setShowFeedbackModal(false); // Close the feedback form modal
+        setIsError(false); // Mark as success
       } else {
         const errorData = await response.json();
         setModalMessage(errorData.error || "Failed to submit feedback.");
+        setIsError(true); // Mark as error
       }
     } catch (err) {
       console.error("Error submitting feedback:", err);
       setModalMessage("An error occurred while submitting your feedback.");
+      setIsError(true); // Mark as error
     } finally {
       setSubmitting(false);
+      setShowFeedbackModal(false); // Always close the feedback form modal
     }
   };
 
@@ -115,8 +120,14 @@ export default function Footer({ feedbackCount = 0 }) {
       {modalMessage && (
         <Modal onClose={() => setModalMessage(null)}>
           <div className="p-6 flex flex-col items-center max-w-2xl w-full">
-            <ChatIcon className="text-green-500 text-6xl mb-4" />
-            <h2 className="text-2xl font-bold mb-4">Thank You!</h2>
+            {isError ? (
+              <ErrorIcon className="text-red-500 text-6xl mb-4" />
+            ) : (
+              <ChatIcon className="text-green-500 text-6xl mb-4" />
+            )}
+            <h2 className="text-2xl font-bold mb-4">
+              {isError ? "Oops!" : "Thank You!"}
+            </h2>
             <p className="text-gray-300 text-center mb-4">{modalMessage}</p>
             <button
               onClick={() => setModalMessage(null)}
