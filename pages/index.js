@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"; // Correct import
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 // Icons for your main cards
@@ -11,19 +11,12 @@ import CreateIcon from "@mui/icons-material/Create";
 
 // Your separate components
 import Header from "../components/Header"; // NavBar only
-import Footer from "../components/Footer"; // Feedback form + disclaimers
+import Footer from "../components/Footer"; // Feedback modal + button included here
 import AuthModal from "../components/AuthModal"; // Login/Register modal
-
-// Card & Modal are named exports
-import { Card, CardContent } from "../components/Card";
-import Modal from "../components/Modal";
+import { Card, CardContent } from "../components/Card"; // Cards for main apps
 
 export default function HomePage() {
-  const [feedbackCount, setFeedbackCount] = useState(0); // useState imported correctly
-  const [submitting, setSubmitting] = useState(false);
-  const [modalMessage, setModalMessage] = useState(null);
-
-  // Auth modal states
+  const [feedbackCount, setFeedbackCount] = useState(0); // Tracks the number of feedbacks
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
@@ -33,33 +26,8 @@ export default function HomePage() {
     router.push(path);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const feedback = e.target.feedback.value;
-    setSubmitting(true);
-
-    try {
-      const response = await fetch("/api/submit-feedback", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ feedback }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setModalMessage(data.message);
-      } else {
-        const errorData = await response.json();
-        setModalMessage(errorData.error);
-      }
-    } catch (err) {
-      console.error("Error submitting feedback:", err);
-      setModalMessage("An error occurred while processing your feedback.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   useEffect(() => {
+    // Fetch feedback count from API
     const fetchFeedbackCount = async () => {
       try {
         const response = await fetch("/api/feedback-count");
@@ -73,7 +41,7 @@ export default function HomePage() {
     };
 
     fetchFeedbackCount();
-    const interval = setInterval(fetchFeedbackCount, 5000);
+    const interval = setInterval(fetchFeedbackCount, 5000); // Refresh feedback count every 5 seconds
     return () => clearInterval(interval);
   }, []);
 
@@ -100,87 +68,81 @@ export default function HomePage() {
       </header>
 
       {/* Main Content */}
-    <main className="px-4 sm:px-8 mb-8 mt-2 flex-1">
-  <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center max-w-6xl mx-auto">
-    <Card className="w-64 h-64">
-      <CardContent className="flex flex-col justify-center items-center h-full">
-        <SecurityIcon className="text-blue-500 text-7xl mb-4" />
-        <h2 className="text-xl font-bold mb-2 text-center">Safety & Standards Briefings</h2>
-        <p className="text-sm text-gray-300 text-center">
-          Create tailored safety and standards briefings.
-        </p>
-      </CardContent>
-    </Card>
+      <main className="px-4 sm:px-8 mb-8 mt-2 flex-1">
+        <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center max-w-6xl mx-auto">
+          <Card className="w-64 h-64">
+            <CardContent className="flex flex-col justify-center items-center h-full">
+              <SecurityIcon className="text-blue-500 text-7xl mb-4" />
+              <h2 className="text-xl font-bold mb-2 text-center">
+                Safety & Standards Briefings
+              </h2>
+              <p className="text-sm text-gray-300 text-center">
+                Create tailored safety and standards briefings.
+              </p>
+            </CardContent>
+          </Card>
 
-    <Card className="w-64 h-64">
-      <CardContent className="flex flex-col justify-center items-center h-full">
-        <EditIcon className="text-yellow-500 text-7xl mb-4" />
-        <h2 className="text-xl font-bold mb-2 text-center">EPB/OPB Drafter</h2>
-        <p className="text-sm text-gray-300 text-center">
-          Draft content and receive tailored suggestions.
-        </p>
-      </CardContent>
-    </Card>
+          <Card className="w-64 h-64">
+            <CardContent className="flex flex-col justify-center items-center h-full">
+              <EditIcon className="text-yellow-500 text-7xl mb-4" />
+              <h2 className="text-xl font-bold mb-2 text-center">EPB/OPB Drafter</h2>
+              <p className="text-sm text-gray-300 text-center">
+                Draft content and receive tailored suggestions.
+              </p>
+            </CardContent>
+          </Card>
 
-    <Card className="w-64 h-64">
-      <CardContent className="flex flex-col justify-center items-center h-full">
-        <PublicIcon className="text-green-500 text-7xl mb-4" />
-        <h2 className="text-xl font-bold mb-2 text-center">News & Updates</h2>
-        <p className="text-sm text-gray-300 text-center">
-          Stay updated with the latest developments.
-        </p>
-      </CardContent>
-    </Card>
+          <Card className="w-64 h-64">
+            <CardContent className="flex flex-col justify-center items-center h-full">
+              <PublicIcon className="text-green-500 text-7xl mb-4" />
+              <h2 className="text-xl font-bold mb-2 text-center">News & Updates</h2>
+              <p className="text-sm text-gray-300 text-center">
+                Stay updated with the latest developments.
+              </p>
+            </CardContent>
+          </Card>
 
-    <Card className="w-64 h-64">
-      <CardContent className="flex flex-col justify-center items-center h-full">
-        <ForumIcon className="text-purple-500 text-7xl mb-4" />
-        <h2 className="text-xl font-bold mb-2 text-center">Social Hub</h2>
-        <p className="text-sm text-gray-300 text-center">
-          A community-driven space for Airmen and Guardians.
-        </p>
-      </CardContent>
-    </Card>
+          <Card className="w-64 h-64">
+            <CardContent className="flex flex-col justify-center items-center h-full">
+              <ForumIcon className="text-purple-500 text-7xl mb-4" />
+              <h2 className="text-xl font-bold mb-2 text-center">Social Hub</h2>
+              <p className="text-sm text-gray-300 text-center">
+                A community-driven space for Airmen and Guardians.
+              </p>
+            </CardContent>
+          </Card>
 
-    <Card className="w-64 h-64">
-      <CardContent className="flex flex-col justify-center items-center h-full">
-        <BookIcon className="text-yellow-400 text-7xl mb-4" />
-        <h2 className="text-xl font-bold mb-2 text-center">Guides & How-Tos</h2>
-        <p className="text-sm text-gray-300 text-center">
-          Explore guides and step-by-step how-tos.
-        </p>
-      </CardContent>
-    </Card>
+          <Card className="w-64 h-64">
+            <CardContent className="flex flex-col justify-center items-center h-full">
+              <BookIcon className="text-yellow-400 text-7xl mb-4" />
+              <h2 className="text-xl font-bold mb-2 text-center">Guides & How-Tos</h2>
+              <p className="text-sm text-gray-300 text-center">
+                Explore guides and step-by-step how-tos.
+              </p>
+            </CardContent>
+          </Card>
 
-    <Card className="w-64 h-64">
-      <CardContent className="flex flex-col justify-center items-center h-full">
-        <CreateIcon className="text-pink-500 text-7xl mb-4" />
-        <h2 className="text-xl font-bold mb-2 text-center">DAF Writing Tools</h2>
-        <p className="text-sm text-gray-300 text-center">
-          Enhance your Air Force & Space Force writing tasks.
-        </p>
-      </CardContent>
-    </Card>
-  </div>
-</main>
+          <Card className="w-64 h-64">
+            <CardContent className="flex flex-col justify-center items-center h-full">
+              <CreateIcon className="text-pink-500 text-7xl mb-4" />
+              <h2 className="text-xl font-bold mb-2 text-center">DAF Writing Tools</h2>
+              <p className="text-sm text-gray-300 text-center">
+                Enhance your Air Force & Space Force writing tasks.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </main>
 
-
-      {/* Footer */}
-<Footer
-  feedbackCount={feedbackCount}
-  handleSubmit={handleSubmit}
-/>
-
-
-      {/* Server Response Modal */}
-      <Modal message={modalMessage} onClose={() => setModalMessage(null)} />
+      {/* Footer with Feedback Modal */}
+      <Footer feedbackCount={feedbackCount} />
 
       {/* Auth Modals */}
       {showLogin && (
         <AuthModal
           isOpen={showLogin}
           onClose={() => setShowLogin(false)}
-          onSubmit={(e) => handleLoginSubmit(e)}
+          onSubmit={(e) => console.log("Login submitted", e)}
           title="Login"
         />
       )}
@@ -188,7 +150,7 @@ export default function HomePage() {
         <AuthModal
           isOpen={showRegister}
           onClose={() => setShowRegister(false)}
-          onSubmit={(e) => handleRegisterSubmit(e)}
+          onSubmit={(e) => console.log("Register submitted", e)}
           title="Register"
         />
       )}
