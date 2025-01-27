@@ -1,10 +1,8 @@
-// components/Footer.js
 import React from "react";
 
-const Footer = ({ feedbackCount, submitting, handleSubmit }) => {
+export default function Footer({ feedbackCount, submitting, handleSubmit }) {
   return (
     <>
-      {/* Suggestions & Feedback */}
       <div className="bg-gray-800 py-6 px-4 sm:px-8 rounded-t-2xl shadow-inner">
         <h2 className="text-2xl font-semibold mb-4 text-center text-blue-400">
           Suggestions &amp; Feedback
@@ -33,7 +31,6 @@ const Footer = ({ feedbackCount, submitting, handleSubmit }) => {
         </form>
       </div>
 
-      {/* Disclaimers */}
       <footer className="text-center py-6 text-xs text-gray-500 bg-gray-800">
         <p>&copy; 2025 Air Force Toolkit. All rights reserved.</p>
         <p className="mt-2">
@@ -53,6 +50,4 @@ const Footer = ({ feedbackCount, submitting, handleSubmit }) => {
       </footer>
     </>
   );
-};
-
-export default Footer;
+}
