@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../components/Header";
-import Footer from "../components/Header";
+import Footer from "../components/Footer";
 
 const EPB_OPB_Drafter = () => {
   return (
